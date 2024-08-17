@@ -355,6 +355,7 @@ MigrationBackup/
 
 # password file for docker registry
 .dockerpass
+**/secrets.json
 
 # secrets files
 **/secrets*.json
