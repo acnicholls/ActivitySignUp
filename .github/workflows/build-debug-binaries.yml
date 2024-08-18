@@ -37,4 +37,4 @@ jobs:
     uses: ./.github/workflows/job-build-and-run-tests.yml
     needs: [prepare-variables, prepare-environment]
     with:
-      ng-build-config: ${{ env.environment }}
+      ng-build-config: "${{ env.environment }}"
