@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Hosting;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 
 namespace ActivitySignUp.Repositories
 {
@@ -14,6 +15,7 @@ namespace ActivitySignUp.Repositories
     {
 
         private IConfiguration _configuration;
+        private readonly ILogger<DbConnectionFactory> _logger;
 
 
         /// <summary>
@@ -21,10 +23,12 @@ namespace ActivitySignUp.Repositories
         /// </summary>
         /// <param name="configuration">the application configuration</param>
         public DbConnectionFactory(
-            IConfiguration configuration
+            IConfiguration configuration,
+            ILogger<DbConnectionFactory> logger
             )
         {
             _configuration = configuration;
+            _logger = logger;
         }
 
         /// <summary>
@@ -34,7 +38,8 @@ namespace ActivitySignUp.Repositories
         public IDbConnection Create()
         {
             var connstring = string.Empty;
-            switch (_configuration["ASPNETCORE_ENVIRONMENT"])
+            var envName = _configuration["ASPNETCORE_ENVIRONMENT"];
+            switch (envName)
             {
                 case "Production":
                     {
@@ -59,7 +64,10 @@ namespace ActivitySignUp.Repositories
             }
             if (string.IsNullOrEmpty(connstring))
             {
-                throw new System.Exception("no connection string.");
+                string message = $"No connectionstring for env {envName}";
+                _logger.LogWarning(message);
+                throw new System.Exception(message);
+
             }
             return new SqlConnection(connstring);
         }
