@@ -14,6 +14,8 @@ on:
       - .gitignore
       - .github/**
   workflow_dispatch:
+env:
+  environment: "local"
 
 jobs:
   prepare-variables:
@@ -22,8 +24,7 @@ jobs:
       sub-file-name: ${{ steps.get-sub-file-name.outputs.sub-file-name }}
     steps:
       - id: get-sub-file-name
-        shell: powershell
-        run: echo "sub-file-name=appsettings.${{ env.environment }}.json" >> $env:GITHUB_OUTPUT
+        run: echo "sub-file-name=appsettings.${{ env.environment }}.json" >> $GITHUB_OUTPUT
 
   prepare-environment:
     uses: ./.github/workflows/job-prepare-environment.yml
@@ -56,3 +57,5 @@ jobs:
     if: ${{ success() }}
     uses: ./.github/workflows/job-build-and-push-db-image.yml
     needs: [prepare-variables, prepare-environment, build-run-tests]
+# now add a step to log into the server and restart the service.
+
