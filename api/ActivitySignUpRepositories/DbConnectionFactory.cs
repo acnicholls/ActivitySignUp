@@ -14,18 +14,16 @@ namespace ActivitySignUp.Repositories
 
         private IConfiguration _configuration;
 
-        private IHostEnvironment _environment;
 
         /// <summary>
         /// basic ctor
         /// </summary>
         /// <param name="configuration">the application configuration</param>
         public DbConnectionFactory(
-            IConfiguration configuration,
-            IHostEnvironment environment)
+            IConfiguration configuration
+            )
         {
             _configuration = configuration;
-            _environment = environment;
         }
 
         /// <summary>
@@ -34,25 +32,25 @@ namespace ActivitySignUp.Repositories
         /// <returns>IDbConnection</returns>
         public IDbConnection Create()
         {
-            switch(_environment.EnvironmentName)
+            switch (_configuration["ASPNETCORE_ENVIRONMENT"])
             {
                 case "Production":
-                {
-                    return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase_Production"));
-                }
+                    {
+                        return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase_Production"));
+                    }
                 case "arm64-latest":
-                {
-                    return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase_arm64-latest"));
-                }
+                    {
+                        return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase_arm64-latest"));
+                    }
                 case "local":
-                {
-                    // ActivitySignUpDatabase_local
-                    return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase_local"));                    
-                }
+                    {
+                        // ActivitySignUpDatabase_local
+                        return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase_local"));
+                    }
             }
-            return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase"));            
+            return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase"));
         }
-       
+
 
     }
 }

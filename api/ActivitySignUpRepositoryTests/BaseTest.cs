@@ -15,7 +15,7 @@ using Microsoft.Extensions.Hosting;
 namespace ActivitySignUp.RespositoryTests
 {
     [TestClass]
-    public class BaseTest 
+    public class BaseTest
     {
         protected static TestContext Context;
 
@@ -34,14 +34,14 @@ namespace ActivitySignUp.RespositoryTests
         }
 
         [AssemblyInitialize]
-        public static void AssemblyInit(TestContext testContext, IHostEnvironment environment)
+        public static void AssemblyInit(TestContext testContext)
         {
 
             Configuration = GetIConfigurationRoot(testContext.TestRunDirectory);
 
             AmbientDbContextStorageProvider.SetStorage(new AsyncLocalContextStorage());
 
-            ContextFactory = new AmbientDbContextFactory(new DbConnectionFactory(Configuration, environment));
+            ContextFactory = new AmbientDbContextFactory(new DbConnectionFactory(Configuration));
 
             ContextFactory.Create();
 
@@ -98,8 +98,8 @@ INSERT INTO dbo.Activity (
     ActivityDateTime,
     ActivityImage)
 VALUES (
-    '{model.ActivityName.Replace("'","''")}',
-    '{model.ActivityDescription.Replace("'","''")}',
+    '{model.ActivityName.Replace("'", "''")}',
+    '{model.ActivityDescription.Replace("'", "''")}',
     {model.ActivityDateTime.ToShortDateString()},
     '{model.ActivityImage}'
 );
@@ -160,8 +160,8 @@ INSERT INTO dbo.Person (
     PersonEmail,
     PersonActivityId)
 VALUES (
-    '{model.PersonFirstName.Replace("'","''")}',
-    '{model.PersonLastName.Replace("'","''")}',
+    '{model.PersonFirstName.Replace("'", "''")}',
+    '{model.PersonLastName.Replace("'", "''")}',
     '{model.PersonEmail}',
     {model.PersonActivityId}
 );
@@ -227,7 +227,7 @@ INSERT INTO dbo.Comment (
 VALUES (
     {model.CommentPersonId},
     {model.CommentActivityId},
-    '{model.CommentContent.Replace("'","''")}',
+    '{model.CommentContent.Replace("'", "''")}',
     GETDATE()
 );
 
