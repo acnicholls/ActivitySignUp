@@ -24,10 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="NLog.config" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Dapper.AmbientContext" Version="1.8.1" />
     <PackageReference Include="NLog" Version="4.7.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
@@ -38,6 +34,27 @@
     <ProjectReference Include="..\ActivitySignUpModels\ActivitySignUpModels.csproj" />
     <ProjectReference Include="..\ActivitySignUpServices\ActivitySignUpServices.csproj" />
     <ProjectReference Include="..\ActivitySignUpValidation\ActivitySignUpValidation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.arm64-latest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.Development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.local.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.Production.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 

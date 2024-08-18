@@ -9,6 +9,7 @@
         <EnvironmentVariables>
             <DOTNET_ROOT>/home/git/.dotnet</DOTNET_ROOT>
             <ASPNETCORE_ENVIRONMENT>Debug</ASPNETCORE_ENVIRONMENT>
+            <ENVIRONMENT>Debug</ENVIRONMENT>
         </EnvironmentVariables>
     </RunConfiguration>
 </RunSettings>

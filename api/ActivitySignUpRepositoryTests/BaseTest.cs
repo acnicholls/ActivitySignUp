@@ -101,7 +101,7 @@ VALUES (
     '{model.ActivityName.Replace("'", "''")}',
     '{model.ActivityDescription.Replace("'", "''")}',
     {model.ActivityDateTime.ToShortDateString()},
-    '{model.ActivityImage}'
+    CAST('{model.ActivityImage}' as varbinary(max))
 );
 
 set @NewId = (SELECT SCOPE_IDENTITY());
