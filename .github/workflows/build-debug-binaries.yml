@@ -13,17 +13,21 @@ on:
   workflow_dispatch:
 
 env:
-  environment: "local"
+  build-config: "local"
 
 jobs:
   prepare-variables:
     runs-on: self-hosted
     outputs:
       sub-file-name: ${{ steps.get-sub-file-name.outputs.sub-file-name }}
+      env-name: ${{ steps.get-env-name.outputs.env-name }}
     steps:
       - id: get-sub-file-name
         shell: bash
-        run: echo "sub-file-name=./api/ActivitySignUpApi/appsettings.${{ env.environment }}.json" >> $GITHUB_OUTPUT
+        run: echo "sub-file-name=./api/ActivitySignUpApi/appsettings.${{ env.build-config }}.json" >> $GITHUB_OUTPUT
+      - id: get-env-name
+        shell: bash
+        run: echo "env-name=${{ env.build-config }}" >> $GITHUB_OUTPUT
 
   prepare-environment:
     uses: ./.github/workflows/job-prepare-environment.yml
@@ -37,4 +41,4 @@ jobs:
     uses: ./.github/workflows/job-build-and-run-tests.yml
     needs: [prepare-variables, prepare-environment]
     with:
-      ng-build-config: "${{ env.environment }}"
+      ng-build-config: "${{ needs.prepare-variables.outputs.env-name }}"
