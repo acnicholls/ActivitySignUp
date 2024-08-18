@@ -19,14 +19,14 @@ jobs:
         run: |
           pwd
           cd ./api
-          dotnet restore ./ActivitySignUp.sln
+          ${{ inputs.dotnet-home }}/dotnet restore ./ActivitySignUp.sln
           cd ..
 
       - name: dotnet test
         run: |
           pwd
           cd ./api
-          dotnet test ./ActivitySignUp.sln
+          ${{ inputs.dotnet-home }}/dotnet test ./ActivitySignUp.sln
           cd ..
 
       - name: build angular ui
