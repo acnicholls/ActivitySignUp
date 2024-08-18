@@ -21,7 +21,7 @@ jobs:
       # display environment variables, for audit purposes
       - name: Check Environment
         run: |
-          dir env:
+          printenv
 
       - name: Prepare application settings
         uses: microsoft/variable-substitution@v1
