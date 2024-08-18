@@ -23,7 +23,7 @@ jobs:
     steps:
       - id: get-sub-file-name
         shell: bash
-        run: echo "sub-file-name=appsettings.${{ env.environment }}.json" >> $GITHUB_OUTPUT
+        run: echo "sub-file-name=./api/ActivitySignUpApi/appsettings.${{ env.environment }}.json" >> $GITHUB_OUTPUT
 
   prepare-environment:
     uses: ./.github/workflows/job-prepare-environment.yml
@@ -31,7 +31,7 @@ jobs:
     with:
       sub-file-name: ${{ needs.prepare-variables.outputs.sub-file-name }}
     secrets:
-      connectionstring: ${{ secrets.local-connectionstring }}
+      connectionstring: ${{ secrets.LOCAL_CONNECTIONSTRING }}
 
   build-run-tests:
     uses: ./.github/workflows/job-build-and-run-tests.yml
