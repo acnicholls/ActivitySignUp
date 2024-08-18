@@ -3,12 +3,12 @@ name: prepare-environment
 on:
   workflow_call:
     inputs:
-      environment:
+      sub-file-name:
         required: true
         type: string
+    secrets:
       connectionstring:
         required: true
-        type: string
 
 jobs:
   prepare-environment:
@@ -26,6 +26,6 @@ jobs:
       - name: Prepare application settings
       - uses: microsoft/variable-substitution@v1 
           with:
-            files: 'appsettings.${{ inputs.environment }}.json'
+            files: ${{ inputs.sub-file-name }}
           env:
             ConnectionStrings.ActivitySignUpDatabase: ${{ inputs.connectionstring }}

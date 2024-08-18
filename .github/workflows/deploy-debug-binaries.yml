@@ -16,28 +16,43 @@ on:
   workflow_dispatch:
 
 jobs:
+  prepare-variables:
+    runs-on: self-hosted
+    outputs:
+      sub-file-name: ${{ steps.get-sub-file-name.outputs.sub-file-name }}
+    steps:
+      id: get-sub-file-name
+      shell: powershell
+      run: echo "sub-file-name=appsettings.${{ env.environment }}.json" >> $env:GITHUB_OUTPUT
+
   prepare-environment:
     uses: ./.github/workflows/job-prepare-environment.yml
+    needs: [prepare-variables]
     with:
+      sub-file-name: ${{ needs.prepare-variables.outputs.sub-file-name }}
+    secrets:
       connectionstring: ${{ secrets.local-connectionstring }}
-      environment: "local"
 
   build-run-tests:
     uses: ./.github/workflows/job-build-and-run-tests.yml
     needs: [prepare-variables, prepare-environment]
 
   build-api-binaries:
+    if: ${{ success() }}
     uses: ./.github/workflows/job-build-and-push-api-image.yml
     needs: [prepare-variables, prepare-environment, build-run-tests]
 
   build-client-binaries:
+    if: ${{ success() }}
     uses: ./.github/workflows/job-build-and-push-client-image.yml
     needs: [prepare-variables, prepare-environment, build-run-tests]
 
   build-proxy-binaries:
+    if: ${{ success() }}
     uses: ./.github/workflows/job-build-and-push-proxy-image.yml
     needs: [prepare-variables, prepare-environment, build-run-tests]
 
   build-db-binaries:
+    if: ${{ success() }}
     uses: ./.github/workflows/job-build-and-push-db-image.yml
     needs: [prepare-variables, prepare-environment, build-run-tests]
