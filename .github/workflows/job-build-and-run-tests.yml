@@ -17,12 +17,14 @@ jobs:
       # get the latest code from the repo
       - name: dotnet restore
         run: |
+          pwd
           cd ./api
           dotnet restore ./ActivitySignUp.sln
           cd ..
 
       - name: dotnet test
         run: |
+          pwd
           cd ./api
           dotnet test ./ActivitySignUp.sln
           cd ..
