@@ -1,10 +1,7 @@
 name: build-and-push-proxy-image
 
 on:
-  push:
-    target_branches:
-      - develop
-  workflow_dispatch:
+  workflow_call:
     inputs:
       container-registry:
         required: true
