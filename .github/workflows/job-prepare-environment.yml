@@ -25,10 +25,10 @@ jobs:
         with:
           dotnet-version: "3.1.x"
 
-      - name: install lib ssl
-        run: |
-          apt-get update
-          apt-get -y install libssl-dev libssl
+      #      - name: install lib ssl
+      #        run: |
+      #          apt-get update
+      #          apt-get -y install libssl-dev libssl
 
       - name: Install node
         uses: actions/setup-node@v4
