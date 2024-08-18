@@ -12,7 +12,7 @@ jobs:
     if: ${{ success() }}
     uses: ./.github/workflows/job-build-and-push-image.yml
     name: build and push proxy image to cr
-    runs-on: "ubuntu-latest"
+    runs-on: self-hosted
     with:
       container-registry: "ghcr.io"
       code-folder: "proxy"

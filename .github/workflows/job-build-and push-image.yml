@@ -17,7 +17,7 @@ jobs:
   build-and-push-image:
     if: ${{ success() }}
     name: build and push to cr
-    runs-on: "ubuntu-latest"
+    runs-on: self-hosted
     permissions:
       packages: write
       contents: read
