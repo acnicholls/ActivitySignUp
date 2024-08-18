@@ -15,10 +15,13 @@ on:
       - .github/**
   workflow_dispatch:
 env:
-  build-config: "local"
   tag: "local"
+  build-config: "local"
   dotnet-home: "/home/git/.dotnet"
   ASPNETCORE_ENVIRONMENT: "local"
+  sln-path: "./api"
+  sln-name: "ActivitySignUp.sln"
+  node-project-home: "client/ActivitySignUpPortal"
 
 jobs:
   prepare-variables:

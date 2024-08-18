@@ -1,0 +1,21 @@
+name: build-and-run-tests
+
+on:
+  workflow_call:
+    inputs:
+      build-config:
+        required: true
+        type: string
+      node-project-home:
+        required: true
+        type: string
+
+jobs:
+  build-and-run-tests:
+    runs-on: self-hosted
+    steps:
+      - name: build angular ui
+        run: |
+          cd ${{ inputs.node-project-home }}
+          npm install
+          ng build --output-path=dist --configuration=${{ inputs.build-config }}

@@ -1,0 +1,39 @@
+name: build-and-run-tests
+
+on:
+  workflow_call:
+    inputs:
+      build-config:
+        required: true
+        type: string
+      dotnet-home:
+        required: true
+        type: string
+      sln-path:
+        required: true
+        type: string
+      sln-name:
+        required: true
+        type: string
+      runsettings-name:
+        required: true
+        type: string
+
+jobs:
+  build-and-run-tests:
+    runs-on: self-hosted
+    steps:
+      # get the latest code from the repo
+      - name: dotnet restore
+        run: |
+          pwd
+          cd ${{ inputs.sln-path }}
+          ${{ inputs.dotnet-home }}/dotnet restore ./${{ inputs.sln-name }}
+          cd ..
+
+      - name: dotnet test
+        run: |
+          pwd
+          cd ${{ inputs.sln-path }}
+          ${{ inputs.dotnet-home }}/dotnet test ./${{ inputs.sln-name }} --settings:./${{ inputs.runsettings-name }}
+          cd ..
