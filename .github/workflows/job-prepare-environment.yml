@@ -24,8 +24,8 @@ jobs:
           dir env:
 
       - name: Prepare application settings
-      - uses: microsoft/variable-substitution@v1 
-          with:
-            files: '${{ inputs.sub-file-name }}'
-          env:
-            ConnectionStrings.ActivitySignUpDatabase: ${{ inputs.connectionstring }}
+      - uses: microsoft/variable-substitution@v1
+        with:
+          files: "${{ inputs.sub-file-name }}"
+        env:
+          ConnectionStrings.ActivitySignUpDatabase: ${{ inputs.connectionstring }}
