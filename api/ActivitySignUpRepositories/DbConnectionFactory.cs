@@ -32,25 +32,31 @@ namespace ActivitySignUp.Repositories
         /// <returns>IDbConnection</returns>
         public IDbConnection Create()
         {
+            var connstring = string.Empty;
             switch (_configuration["ASPNETCORE_ENVIRONMENT"])
             {
                 case "Production":
                     {
-                        return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase_Production"));
+                        connstring = _configuration.GetConnectionString("ActivitySignUpDatabase_Production");
+                        break;
                     }
                 case "arm64-latest":
                     {
-                        return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase_arm64-latest"));
+                        connstring = _configuration.GetConnectionString("ActivitySignUpDatabase_arm64-latest");
+                        break;
                     }
                 case "local":
                     {
-                        // ActivitySignUpDatabase_local
-                        return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase_local"));
+                        connstring = _configuration.GetConnectionString("ActivitySignUpDatabase_local");
+                        break;
+                    }
+                default:
+                    {
+                        connstring = _configuration.GetConnectionString("ActivitySignUpDatabase");
+                        break;
                     }
             }
-            return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase"));
+            return new SqlConnection(connstring);
         }
-
-
     }
 }

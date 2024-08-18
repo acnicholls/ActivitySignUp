@@ -46,3 +46,4 @@ jobs:
           files: "${{ inputs.sub-file-name }}"
         env:
           ConnectionStrings.ActivitySignUpDatabase_local: ${{ secrets.connectionstring }}
+          ConnectionStrings.ActivitySignUpDatabase: ${{ secrets.connectionstring }}
