@@ -24,9 +24,11 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "3.1.x"
+
+      - name: install lib ssl
         run: |
           apt-get update
-          apt-get install libssl-dev libssl
+          apt-get -y install libssl-dev libssl
 
       - name: Install node
         uses: actions/setup-node@v4
