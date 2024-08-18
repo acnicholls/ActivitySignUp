@@ -1,0 +1,15 @@
+name: build-and-push-db-image
+
+on:
+  workflow_call:
+
+jobs:
+  build-and-push-image:
+    if: ${{ success() }}
+    uses: ./github/workflows/job-build-and-push-image.yml
+    name: build and push db image to cr
+    runs-on: self-hosted
+    with:
+      container-registry: "ghcr.io"
+      code-folder: "db"
+      image-tag: "activity_db:latest"

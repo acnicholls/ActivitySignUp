@@ -1,0 +1,46 @@
+name: build-and-push-proxy-image
+
+on:
+  push:
+    target_branches:
+      - develop
+  workflow_dispatch:
+    inputs:
+      container-registry:
+        required: true
+        type: string
+      image-tag:
+        required: true
+        type: string
+      code-folder:
+        required: true
+        type: string
+
+jobs:
+  build-and-push-image:
+    if: ${{ success() }}
+    name: build and push to cr
+    runs-on: self-hosted
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      - name: "Login to Container Registry"
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ inputs.container-registry }}
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+
+      - name: "Build Image"
+        run: |
+          cd ${{ inputs.code-folder }}
+          docker buildx build --rm --load --platform linux/amd64,linux/arm64 \
+              -t ${{ inputs.image-tag }} \
+              -f Dockerfile \
+              .
+          docker image tag ${{ inputs.image-tag }} ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-tag }}
+          docker image push ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-tag }}
+          cd ..

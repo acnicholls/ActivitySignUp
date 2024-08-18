@@ -1,0 +1,13 @@
+name: build-and-run-tests
+
+on:
+  workflow_call:
+
+jobs:
+  build-and-run-tests:
+    runs-on: self-hosted
+    steps:
+      # get the latest code from the repo
+      - name: dotnet restore
+        run: |
+          dotnet test

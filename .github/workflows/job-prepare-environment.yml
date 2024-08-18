@@ -1,0 +1,31 @@
+name: prepare-environment
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      connectionstring:
+        required: true
+        type: string
+
+jobs:
+  prepare-environment:
+    runs-on: self-hosted
+    steps:
+      # get the latest code from the repo
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # display environment variables, for audit purposes
+      - name: Check Environment
+        run: |
+          dir env:
+
+- name: Prepare application settings
+- uses: microsoft/variable-substitution@v1 
+      with:
+        files: appsettings.${{ inputs.environment }}.json
+      env:
+        ActivitySignUpDatabase: ${{ inputs.connectionstring }}

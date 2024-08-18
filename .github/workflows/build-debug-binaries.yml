@@ -1,0 +1,23 @@
+# This script builds the debug binaries for activity-sign-up
+# the images are then uploaded to github's CR
+name: build-debug-binaries
+run-name: Debug build for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
+concurrency:
+  group: debug-binaries
+on:
+  pull_request:
+    target_branches:
+      - develop
+    types: [opened, edited, ready_for_review, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  prepare-environment:
+    uses: ./.github/workflows/job-prepare-environment.yml
+    with:
+      connectionstring: ${{ secrets.local-connectionstring }}
+      environment: "local"
+
+  build-run-tests:
+    uses: ./.github/workflows/job-build-and-run-tests.yml
+    needs: [prepare-variables, prepare-environment]
