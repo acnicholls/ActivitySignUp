@@ -18,13 +18,13 @@ jobs:
       - name: dotnet restore
         run: |
           cd api
-          ${{ inputs.dotnet-home }}/dotnet restore ./ActivitySignUp.sln
+          dotnet restore ./ActivitySignUp.sln
           cd ..
 
       - name: dotnet test
         run: |
           cd api
-          ${{ inputs.dotnet-home }}/dotnet test ./ActivitySignUp.sln
+          dotnet test ./ActivitySignUp.sln
           cd ..
 
       - name: build angular ui
