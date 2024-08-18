@@ -6,6 +6,9 @@ on:
       ng-build-config:
         required: true
         type: string
+      dotnet-home:
+        required: true
+        type: string
 
 jobs:
   build-and-run-tests:
@@ -15,13 +18,13 @@ jobs:
       - name: dotnet restore
         run: |
           cd api
-          dotnet restore ./ActivitySignUp.sln
+          ${{ inputs.dotnet-home }}/dotnet restore ./ActivitySignUp.sln
           cd ..
 
       - name: dotnet test
         run: |
           cd api
-          dotnet test ./ActivitySignUp.sln
+          ${{ inputs.dotnet-home }}/dotnet test ./ActivitySignUp.sln
           cd ..
 
       - name: build angular ui
