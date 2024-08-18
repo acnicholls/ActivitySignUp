@@ -49,7 +49,7 @@ jobs:
         run: echo "sln-name=${{ env.sln-name }}" >> $GITHUB_OUTPUT
       - id: get-runsettings-name
         shell: bash
-        run: echo "runsettings-name=test.${{ env.build-config }}.runsettings" >> $GITHUB_OUTPUT
+        run: echo "runsettings-name=tests.${{ env.build-config }}.runsettings" >> $GITHUB_OUTPUT
       - id: get-node-project-home
         shell: bash
         run: echo "node-project-home=${{ env.node-project-home }}" >> $GITHUB_OUTPUT

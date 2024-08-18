@@ -1,4 +1,4 @@
-name: build-and-run-tests
+name: build-and-run-tests-dotnet
 
 on:
   workflow_call:
@@ -20,7 +20,7 @@ on:
         type: string
 
 jobs:
-  build-and-run-tests:
+  build-and-run-tests-dotnet:
     runs-on: self-hosted
     steps:
       # get the latest code from the repo
