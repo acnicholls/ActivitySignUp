@@ -6,7 +6,7 @@ on:
 jobs:
   build-and-push-image:
     if: ${{ success() }}
-    uses: ./github/workflows/job-build-and-push-image.yml
+    uses: ./.github/workflows/job-build-and-push-image.yml
     name: build and push db image to cr
     runs-on: self-hosted
     with:

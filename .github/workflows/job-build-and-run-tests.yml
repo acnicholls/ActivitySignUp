@@ -10,4 +10,8 @@ jobs:
       # get the latest code from the repo
       - name: dotnet restore
         run: |
+          dotnet restore
+
+      - name: dotnet test
+        run: |
           dotnet test
