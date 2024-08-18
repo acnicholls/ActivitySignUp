@@ -17,5 +17,5 @@ jobs:
       - name: build angular ui
         run: |
           cd ${{ inputs.node-project-home }}
-          npm install
+          npm install --legacy-peer-deps
           ng build --output-path=dist --configuration=${{ inputs.build-config }}

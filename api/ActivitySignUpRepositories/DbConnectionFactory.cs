@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Hosting;
+using System.Runtime.CompilerServices;
 
 namespace ActivitySignUp.Repositories
 {
@@ -55,6 +56,10 @@ namespace ActivitySignUp.Repositories
                         connstring = _configuration.GetConnectionString("ActivitySignUpDatabase");
                         break;
                     }
+            }
+            if (string.IsNullOrEmpty(connstring))
+            {
+                throw new System.Exception("no connection string.");
             }
             return new SqlConnection(connstring);
         }
