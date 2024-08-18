@@ -10,7 +10,8 @@ using System;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace ActivitySignUp.RespositoryTests
 {
@@ -23,6 +24,8 @@ namespace ActivitySignUp.RespositoryTests
         protected static IAmbientDbContextQueryProxy DbContext;
         protected static IAmbientDbContextFactory ContextFactory;
         protected static IAmbientDbContextLocator ContextLocator;
+        protected static Mock<ILogger<DbConnectionFactory>> LoggerMock;
+
 
         public static IConfigurationRoot GetIConfigurationRoot(string outputPath)
         {
@@ -41,7 +44,9 @@ namespace ActivitySignUp.RespositoryTests
 
             AmbientDbContextStorageProvider.SetStorage(new AsyncLocalContextStorage());
 
-            ContextFactory = new AmbientDbContextFactory(new DbConnectionFactory(Configuration));
+            LoggerMock = new Mock<ILogger<DbConnectionFactory>>();
+
+            ContextFactory = new AmbientDbContextFactory(new DbConnectionFactory(Configuration, LoggerMock.Object));
 
             ContextFactory.Create();
 
