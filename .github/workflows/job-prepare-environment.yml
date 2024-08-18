@@ -25,6 +25,11 @@ jobs:
         with:
           dotnet-version: "3.1.x"
 
+      - name: Install node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
       # display environment variables, for audit purposes
       - name: Check Environment
         run: |

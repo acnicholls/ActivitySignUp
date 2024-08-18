@@ -2,6 +2,10 @@ name: build-and-push-proxy-image
 
 on:
   workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
 
 jobs:
   build-and-push-image:
@@ -12,4 +16,4 @@ jobs:
     with:
       container-registry: "ghcr.io"
       code-folder: "proxy"
-      image-tag: "activity_proxy:latest"
+      image-tag: "activity_proxy:${{ inputs.tag }}"

@@ -2,6 +2,10 @@ name: build-and-push-db-image
 
 on:
   workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
 
 jobs:
   build-and-push-image:
@@ -12,4 +16,4 @@ jobs:
     with:
       container-registry: "ghcr.io"
       code-folder: "db"
-      image-tag: "activity_db:latest"
+      image-tag: "activity_db:${{ inputs.tag }}"

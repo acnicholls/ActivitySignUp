@@ -16,6 +16,7 @@ on:
   workflow_dispatch:
 env:
   environment: "local"
+  tag: "local"
 
 jobs:
   prepare-variables:
@@ -37,25 +38,35 @@ jobs:
   build-run-tests:
     uses: ./.github/workflows/job-build-and-run-tests.yml
     needs: [prepare-variables, prepare-environment]
+    with:
+      ng-build-config: ${{ env.environment }}
 
-  build-api-binaries:
+  build-api-image:
     if: ${{ success() }}
     uses: ./.github/workflows/job-build-and-push-api-image.yml
     needs: [prepare-variables, prepare-environment, build-run-tests]
+    with:
+      tag: ${{ env.tag }}
 
-  build-client-binaries:
+  build-client-image:
     if: ${{ success() }}
     uses: ./.github/workflows/job-build-and-push-client-image.yml
     needs: [prepare-variables, prepare-environment, build-run-tests]
+    with:
+      tag: ${{ env.tag }}
 
-  build-proxy-binaries:
+  build-proxy-image:
     if: ${{ success() }}
     uses: ./.github/workflows/job-build-and-push-proxy-image.yml
     needs: [prepare-variables, prepare-environment, build-run-tests]
+    with:
+      tag: ${{ env.tag }}
 
-  build-db-binaries:
+  build-db-image:
     if: ${{ success() }}
     uses: ./.github/workflows/job-build-and-push-db-image.yml
     needs: [prepare-variables, prepare-environment, build-run-tests]
+    with:
+      tag: ${{ env.tag }}
 # now add a step to log into the server and restart the service.
 
