@@ -12,7 +12,7 @@ jobs:
     if: ${{ success() }}
     uses: ./.github/workflows/job-build-and-push-image.yml
     name: build and push db image to cr
-    runs-on: self-hosted
+    runs-on: "ubuntu-latest"
     with:
       container-registry: "ghcr.io"
       code-folder: "db"

@@ -20,7 +20,7 @@ env:
 
 jobs:
   prepare-variables:
-    runs-on: self-hosted
+    runs-on: "ubuntu-latest"
     outputs:
       sub-file-name: ${{ steps.get-sub-file-name.outputs.sub-file-name }}
     steps:

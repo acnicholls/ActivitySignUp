@@ -12,7 +12,7 @@ on:
 
 jobs:
   build-and-run-tests:
-    runs-on: self-hosted
+    runs-on: "ubuntu-latest"
     steps:
       # get the latest code from the repo
       - name: dotnet restore
