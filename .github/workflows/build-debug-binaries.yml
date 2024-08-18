@@ -47,5 +47,5 @@ jobs:
     uses: ./.github/workflows/job-build-and-run-tests.yml
     needs: [prepare-variables, prepare-environment]
     with:
-      ng-build-config: "${{ needs.prepare-variables.outputs.env-name }}"
+      build-config: "${{ needs.prepare-variables.outputs.env-name }}"
       dotnet-home: "${{ needs.prepare-variables.outputs.dotnet-home }}"

@@ -17,12 +17,16 @@ on:
 env:
   build-config: "local"
   tag: "local"
+  dotnet-home: "/home/git/.dotnet"
+  ASPNETCORE_ENVIRONMENT: "local"
 
 jobs:
   prepare-variables:
     runs-on: self-hosted
     outputs:
       sub-file-name: ${{ steps.get-sub-file-name.outputs.sub-file-name }}
+      env-name: ${{ steps.get-env-name.outputs.env-name }}
+      dotnet-home: ${{ steps.get-dotnet-home.outputs.dotnet-home }}
     steps:
       - id: get-sub-file-name
         shell: bash
@@ -30,6 +34,9 @@ jobs:
       - id: get-env-name
         shell: bash
         run: echo "env-name=${{ env.build-config }}" >> $GITHUB_OUTPUT
+      - id: get-dotnet-home
+        shell: bash
+        run: echo "dotnet-home=${{ env.dotnet-home }}" >> $GITHUB_OUTPUT
 
   prepare-environment:
     uses: ./.github/workflows/job-prepare-environment.yml
@@ -43,7 +50,8 @@ jobs:
     uses: ./.github/workflows/job-build-and-run-tests.yml
     needs: [prepare-variables, prepare-environment]
     with:
-      ng-build-config: ${{ env.build-config }}
+      build-config: ${{ needs.prepare-variables.outputs.env-name }}
+      dotnet-home: "${{ needs.prepare-variables.outputs.dotnet-home }}"
 
   build-api-image:
     if: ${{ success() }}
