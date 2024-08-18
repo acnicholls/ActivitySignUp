@@ -23,7 +23,7 @@ jobs:
     steps:
       - id: get-sub-file-name
         shell: bash
-        run: echo "sub-file-name=appsettings.${{ env.environment }}.json" >> $env:GITHUB_OUTPUT
+        run: echo "sub-file-name=appsettings.${{ env.environment }}.json" >> $GITHUB_OUTPUT
 
   prepare-environment:
     uses: ./.github/workflows/job-prepare-environment.yml
