@@ -21,9 +21,9 @@ jobs:
     outputs:
       sub-file-name: ${{ steps.get-sub-file-name.outputs.sub-file-name }}
     steps:
-      id: get-sub-file-name
-      shell: powershell
-      run: echo "sub-file-name=appsettings.${{ env.environment }}.json" >> $env:GITHUB_OUTPUT
+      - id: get-sub-file-name
+        shell: powershell
+        run: echo "sub-file-name=appsettings.${{ env.environment }}.json" >> $env:GITHUB_OUTPUT
 
   prepare-environment:
     uses: ./.github/workflows/job-prepare-environment.yml
