@@ -46,6 +46,11 @@ namespace ActivitySignUp.Repositories
                         connstring = _configuration.GetConnectionString("ActivitySignUpDatabase_Production");
                         break;
                     }
+                case "Development":
+                    {
+                        connstring = _configuration.GetConnectionString("ActivitySignUpDatabase_Development");
+                        break;
+                    }
                 case "arm64-latest":
                     {
                         connstring = _configuration.GetConnectionString("ActivitySignUpDatabase_arm64-latest");
@@ -64,10 +69,9 @@ namespace ActivitySignUp.Repositories
             }
             if (string.IsNullOrEmpty(connstring))
             {
-                string message = $"No connectionstring for env {envName}";
+                string message = $"No connectionstring for env {envName}.";
                 _logger.LogWarning(message);
                 throw new System.Exception(message);
-
             }
             return new SqlConnection(connstring);
         }
