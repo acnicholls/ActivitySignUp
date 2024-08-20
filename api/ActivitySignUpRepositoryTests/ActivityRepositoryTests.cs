@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace ActivitySignUp.RespositoryTests
 {
     [TestClass]
-    public class ActivityRepositoryTests : BaseTest
+    public class ActivityRepositoryTests : BaseRepositoryTest
     {
 
         protected readonly IActivityRepository _repository;
@@ -189,13 +189,13 @@ namespace ActivitySignUp.RespositoryTests
             foreach (var person in participantList)
             {
                 var listPerson = new PersonListModel()
-                { 
-                    PersonName = person.PersonFirstName + " " + person.PersonLastName 
+                {
+                    PersonName = person.PersonFirstName + " " + person.PersonLastName
                 };
-                Assert.IsTrue(retrieved.ParticipantList.Exists(x=>x.PersonName == listPerson.PersonName), "The person's name was not found in the list");
+                Assert.IsTrue(retrieved.ParticipantList.Exists(x => x.PersonName == listPerson.PersonName), "The person's name was not found in the list");
             }
 
-            foreach(var comment in commentList)
+            foreach (var comment in commentList)
             {
 
                 var person = participantList.First<PersonModel>(x => x.PersonId == comment.CommentPersonId);
@@ -205,8 +205,8 @@ namespace ActivitySignUp.RespositoryTests
                     CommentContent = comment.CommentContent,
                     CommentDetail = person.PersonFirstName + " " + person.PersonLastName + " on " + comment.CommentDateTime.ToString("yyyy-mm-dd") + " at " + comment.CommentDateTime.ToString("HH:mm")
                 };
-                Assert.IsTrue(retrieved.CommentList.Exists(x=>x.CommentContent == listComment.CommentContent 
-//                && x.CommentDetail == listComment.CommentDetail
+                Assert.IsTrue(retrieved.CommentList.Exists(x => x.CommentContent == listComment.CommentContent
+                //                && x.CommentDetail == listComment.CommentDetail
                 ), "The comment was not found in the list");
             }
         }

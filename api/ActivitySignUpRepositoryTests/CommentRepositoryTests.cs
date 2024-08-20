@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ActivitySignUp.RespositoryTests
 {
     [TestClass]
-    public class CommentRepositoryTests : BaseTest
+    public class CommentRepositoryTests : BaseRepositoryTest
     {
 
         protected readonly ICommentRepository _repository;

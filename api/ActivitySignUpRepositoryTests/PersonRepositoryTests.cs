@@ -10,7 +10,7 @@ using Dapper.AmbientContext;
 namespace ActivitySignUp.RespositoryTests
 {
     [TestClass]
-    public class PersonRepositoryTests : BaseTest
+    public class PersonRepositoryTests : BaseRepositoryTest
     {
 
         protected readonly IPersonRepository _repository;
