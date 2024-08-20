@@ -28,7 +28,7 @@ jobs:
       - name: Install node
         uses: actions/setup-node@v4
         with:
-          node-version: 12
+          node-version: 18
 
       # display environment variables, for audit purposes
       - name: Check Environment
