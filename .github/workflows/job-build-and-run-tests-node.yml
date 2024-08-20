@@ -3,7 +3,7 @@ name: build-and-run-tests-node
 on:
   workflow_call:
     inputs:
-      build-config:
+      node-build-config:
         required: true
         type: string
       node-project-home:
@@ -18,7 +18,6 @@ jobs:
         run: |
           cd ${{ inputs.node-project-home }}
           npm install
-          npm install -g @angular/cli
-          ng build --output-path=dist --configuration=${{ inputs.build-config }}
+          ng build --output-path=dist --configuration=${{ inputs.node-build-config }}
 
 # add run tests step once more tests are added.

@@ -15,32 +15,40 @@ on:
       - .github/**
   workflow_dispatch:
 env:
+  # docker settings
   tag: "local"
-  build-config: "local"
+  # dotnet env settings
   dotnet-home: "/home/git/.dotnet"
-  ASPNETCORE_ENVIRONMENT: "local"
+  dotnet-build-config: "RELEASE"
+  dotnet-test-runsettings: "./api/tests.Development.runsettings"
+  ASPNETCORE_ENVIRONMENT: "Development"
   sln-path: "./api"
   sln-name: "ActivitySignUp.sln"
+  substitution-file-names: "./api/ActivitySignUpApi/appsettings.Development.json"
+  # node env settings
   node-project-home: "client/ActivitySignUpPortal"
+  node-build-config: "local"
 
 jobs:
   prepare-variables:
     runs-on: self-hosted
     outputs:
+      ASPNETCORE_ENVIRONMENT: ${{ steps.get-asp-env-name.outputs.ASPNETCORE_ENVIRONMENT }}
       sub-file-name: ${{ steps.get-sub-file-name.outputs.sub-file-name }}
-      env-name: ${{ steps.get-env-name.outputs.env-name }}
+      dotnet-build-config: ${{ steps.get-dotnet-build-config.outputs.dotnetbuild-config }}
       dotnet-home: ${{ steps.get-dotnet-home.outputs.dotnet-home }}
       sln-path: ${{ steps.get-sln-path.outputs.sln-path }}
       sln-name: ${{ steps.get-sln-name.outputs.sln-name }}
       runsettings-name: ${{ steps.get-runsettings-name.outputs.runsettings-name }}
       node-project-home: ${{ steps.get-node-project-home.outputs.node-project-home }}
+      node-build-config: ${{ steps.get-node-build-config.outputs.node-build-config }}
     steps:
-      - id: get-sub-file-name
+      - id: get-asp-env-name
         shell: bash
-        run: echo "sub-file-name=./api/ActivitySignUpApi/appsettings.${{ env.build-config }}.json" >> $GITHUB_OUTPUT
-      - id: get-env-name
+        run: echo "ASPNETCORE_ENVIRONMENT=${{ env.ASPNETCORE_ENVIRONMENT }}"
+      - id: get-dotnet-build-config
         shell: bash
-        run: echo "env-name=${{ env.build-config }}" >> $GITHUB_OUTPUT
+        run: echo "dotnet-build-config=${{ env.dotnet-build-config }}" >> $GITHUB_OUTPUT
       - id: get-dotnet-home
         shell: bash
         run: echo "dotnet-home=${{ env.dotnet-home }}" >> $GITHUB_OUTPUT
@@ -50,12 +58,18 @@ jobs:
       - id: get-sln-name
         shell: bash
         run: echo "sln-name=${{ env.sln-name }}" >> $GITHUB_OUTPUT
+      - id: get-sub-file-name
+        shell: bash
+        run: echo "sub-file-name=${{ env.substitution-file-names }} >> $GITHUB_OUTPUT
       - id: get-runsettings-name
         shell: bash
-        run: echo "runsettings-name=test.${{ env.build-config }}.runsettings" >> $GITHUB_OUTPUT
+        run: echo "runsettings-name= >> $GITHUB_OUTPUT
       - id: get-node-project-home
         shell: bash
         run: echo "node-project-home=${{ env.node-project-home }}" >> $GITHUB_OUTPUT
+      - id: get-node-build-config
+        shell: bash
+        run: echo "node-build-config=${{ env.node-build-config }}" >> $GITHUB_OUTPUT
 
   prepare-environment:
     uses: ./.github/workflows/job-prepare-environment.yml
@@ -69,7 +83,8 @@ jobs:
     uses: ./.github/workflows/job-build-and-run-tests-dotnet.yml
     needs: [prepare-variables, prepare-environment]
     with:
-      build-config: ${{ needs.prepare-variables.outputs.env-name }}
+      ASPNETCORE_ENVIRONMENT: "${{ needs.prepare-variables.outputs.ASPNETCORE_ENVIRONMENT }}"
+      dotnet-build-config: "${{ needs.prepare-variables.outputs.dotnet-build-config }}"
       dotnet-home: "${{ needs.prepare-variables.outputs.dotnet-home }}"
       sln-path: "${{ needs.prepare-variables.outputs.sln-path }}"
       sln-name: "${{ needs.prepare-variables.outputs.sln-name }}"
@@ -79,7 +94,7 @@ jobs:
     uses: ./.github/workflows/job-build-and-run-tests-node.yml
     needs: [prepare-variables, prepare-environment]
     with:
-      build-config: "${{ needs.prepare-variables.outputs.env-name }}"
+      node-build-config: "${{ needs.prepare-variables.outputs.node-build-config }}"
       node-project-home: "${{ needs.prepare-variables.outputs.node-project-home }}"
 
   build-api-image:

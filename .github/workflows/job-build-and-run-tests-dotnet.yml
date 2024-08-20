@@ -3,10 +3,10 @@ name: build-and-run-tests-dotnet
 on:
   workflow_call:
     inputs:
-      build-config:
+      ASPNETCORE_ENVIRONMENT:
         required: true
         type: string
-      ASPNETCORE_ENVIRONMENT:
+      dotnet-build-config:
         required: true
         type: string
       dotnet-home:
@@ -36,5 +36,5 @@ jobs:
       - name: dotnet test
         run: |
           cd ${{ inputs.sln-path }}
-          ${{ inputs.dotnet-home }}/dotnet test ./${{ inputs.sln-name }} -c ${{ inputs.build-config }} --settings:./${{ inputs.runsettings-name }}
+          ${{ inputs.dotnet-home }}/dotnet test ./${{ inputs.sln-name }} -c ${{ inputs.dotnet-build-config }} --settings:./${{ inputs.runsettings-name }}
           cd ..
