@@ -59,7 +59,7 @@ jobs:
         run: echo "sub-file-name=${{ env.substitution-file-names }}" >> $GITHUB_OUTPUT
       - id: get-runsettings-name
         shell: bash
-        run: echo "runsettings-name=${{ env.runsettings-name }}"" >> $GITHUB_OUTPUT
+        run: echo "runsettings-name=${{ env.dotnet-test-runsettings }}" >> $GITHUB_OUTPUT
       - id: get-node-project-home
         shell: bash
         run: echo "node-project-home=${{ env.node-project-home }}" >> $GITHUB_OUTPUT
