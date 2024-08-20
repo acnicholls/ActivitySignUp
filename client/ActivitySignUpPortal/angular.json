@@ -109,27 +109,27 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ActivitySignUpPortal:build"
+            "buildTarget": "ActivitySignUpPortal:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ActivitySignUpPortal:build:production"
+              "buildTarget": "ActivitySignUpPortal:build:production"
             },
             "local": {
-              "browserTarget": "ActivitySignUpPortal:build:local"
+              "buildTarget": "ActivitySignUpPortal:build:local"
             },
             "arm64": {
-              "browserTarget": "ActivitySignUpPortal:build:arm64"
+              "buildTarget": "ActivitySignUpPortal:build:arm64"
             },            
             "dev": {
-              "browserTarget": "ActivtiySignUpPortal:build:dev"
+              "buildTarget": "ActivtiySignUpPortal:build:dev"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ActivitySignUpPortal:build"
+            "buildTarget": "ActivitySignUpPortal:build"
           }
         },
         "test": {
