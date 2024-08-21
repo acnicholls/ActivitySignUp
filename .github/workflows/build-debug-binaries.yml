@@ -16,7 +16,7 @@ env:
   # dotnet env settings
   dotnet-home: "/home/git/.dotnet"
   dotnet-build-config: "DEBUG"
-  dotnet-test-runsettings: "./api/tests.Development.runsettings"
+  dotnet-test-runsettings: "tests.Development.runsettings"
   ASPNETCORE_ENVIRONMENT: "Development"
   sln-path: "./api"
   sln-name: "ActivitySignUp.sln"
