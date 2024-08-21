@@ -43,6 +43,7 @@ jobs:
       runsettings-name: ${{ steps.get-runsettings-name.outputs.runsettings-name }}
       node-project-home: ${{ steps.get-node-project-home.outputs.node-project-home }}
       node-build-config: ${{ steps.get-node-build-config.outputs.node-build-config }}
+      docker-tag: ${{ steps.get-docker-tag.outputs.docker-tag }}
     steps:
       - id: get-asp-env-name
         shell: bash
@@ -71,6 +72,9 @@ jobs:
       - id: get-node-build-config
         shell: bash
         run: echo "node-build-config=${{ env.node-build-config }}" >> $GITHUB_OUTPUT
+      - id: get-docker-tag
+        shell: bash
+        run: echo "docker-tag=${{ env.docker-tag }}" >> $GITHUB_OUTPUT
 
   prepare-environment:
     uses: ./.github/workflows/job-prepare-environment.yml
@@ -109,7 +113,7 @@ jobs:
         build-run-node-tests,
       ]
     with:
-      tag: ${{ env.docker-tag }}
+      tag: ${{ needs.prepare-variables.outputs.docker-tag }}
 
   build-client-image:
     if: ${{ success() }}
@@ -122,7 +126,7 @@ jobs:
         build-run-node-tests,
       ]
     with:
-      tag: ${{ env.docker-tag }}
+      tag: ${{ needs.prepare-variables.outputs.docker-tag }}
 
   build-proxy-image:
     if: ${{ success() }}
@@ -135,7 +139,7 @@ jobs:
         build-run-node-tests,
       ]
     with:
-      tag: ${{ env.docker-tag }}
+      tag: ${{ needs.prepare-variables.outputs.docker-tag }}
 
   build-db-image:
     if: ${{ success() }}
@@ -148,6 +152,6 @@ jobs:
         build-run-node-tests,
       ]
     with:
-      tag: ${{ env.docker-tag }}
+      tag: ${{ needs.prepare-variables.outputs.docker-tag }}
 # now add a step to log into the server and restart the service.
 
