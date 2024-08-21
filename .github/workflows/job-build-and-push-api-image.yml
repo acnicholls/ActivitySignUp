@@ -1,0 +1,19 @@
+name: build-and-push-api-image
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+
+jobs:
+  build-and-push-api-image:
+    if: ${{ success() }}
+    uses: ./.github/workflows/job-build-and-push-image.yml
+    name: build and push api image to cr
+    runs-on: self-hosted
+    with:
+      container-registry: "ghcr.io"
+      code-folder: "api"
+      image-tag: "activity_api:${{ inputs.tag }}"

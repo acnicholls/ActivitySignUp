@@ -363,3 +363,5 @@ MigrationBackup/
 # database backups
 **/*.bak
 
+# angular build files
+**/.angular

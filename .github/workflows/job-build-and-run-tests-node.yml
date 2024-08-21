@@ -1,0 +1,23 @@
+name: build-and-run-tests-node
+
+on:
+  workflow_call:
+    inputs:
+      node-build-config:
+        required: true
+        type: string
+      node-project-home:
+        required: true
+        type: string
+
+jobs:
+  build-and-run-tests-node:
+    runs-on: self-hosted
+    steps:
+      - name: build angular ui
+        run: |
+          cd ${{ inputs.node-project-home }}
+          npm install
+          ng build --output-path=dist --configuration=${{ inputs.node-build-config }}
+
+# add run tests step once more tests are added.

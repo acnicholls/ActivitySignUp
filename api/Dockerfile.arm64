@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:3.1 as build-deps
+FROM mcr.microsoft.com/dotnet/sdk:8.0 as build-deps
 
 WORKDIR /app
 
@@ -51,7 +51,7 @@ COPY ./ActivitySignUpApi/Controllers ./ActivitySignUpApi/Controllers/
 
 RUN dotnet publish -c Release -o out
 
-FROM mcr.microsoft.com/dotnet/sdk:3.1 as final-build
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 as final-build
 
 WORKDIR /app
 
