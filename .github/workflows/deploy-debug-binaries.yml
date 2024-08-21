@@ -35,7 +35,7 @@ jobs:
     outputs:
       ASPNETCORE_ENVIRONMENT: ${{ steps.get-asp-env-name.outputs.ASPNETCORE_ENVIRONMENT }}
       sub-file-name: ${{ steps.get-sub-file-name.outputs.sub-file-name }}
-      dotnet-build-config: ${{ steps.get-dotnet-build-config.outputs.dotnetbuild-config }}
+      dotnet-build-config: ${{ steps.get-dotnet-build-config.outputs.dotnet-build-config }}
       dotnet-home: ${{ steps.get-dotnet-home.outputs.dotnet-home }}
       sln-path: ${{ steps.get-sln-path.outputs.sln-path }}
       sln-name: ${{ steps.get-sln-name.outputs.sln-name }}
