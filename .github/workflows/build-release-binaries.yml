@@ -15,7 +15,7 @@ on:
 env:
   # dotnet env settings
   dotnet-home: "/home/git/.dotnet"
-  dotnet-build-config: "DEBUG"
+  dotnet-build-config: "RELEASE"
   dotnet-test-runsettings: "tests.Production.runsettings"
   ASPNETCORE_ENVIRONMENT: "Production"
   sln-path: "./api"
