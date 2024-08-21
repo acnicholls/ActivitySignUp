@@ -7,8 +7,10 @@ concurrency:
 
 on:
   push:
-    target_branches:
+    branches:
       - develop
+    branches_ignore:
+      - *
     paths-ignore:
       - README.md
       - LICENSE

@@ -9,6 +9,8 @@ on:
   pull_request_target:
     branches:
       - master
+    branches_ignore:
+      - *
     types: [opened, edited, ready_for_review, synchronize, reopened]
   workflow_dispatch:
 
