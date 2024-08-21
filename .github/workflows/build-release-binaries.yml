@@ -1,34 +1,29 @@
 # This script builds the debug binaries for activity-sign-up
 # the images are then uploaded to github's CR
-name: deploy-debug-binaries
-run-name: Deploy Debug build for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
+name: build-release-binaries
+run-name: Debug build for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
 concurrency:
-  group: debug-binaries
+  group: release-binaries
 
 on:
-  push:
+  pull_request:
     target_branches:
-      - develop
-    paths-ignore:
-      - README.md
-      - LICENSE
-      - .gitignore
-      - .github/**
+      - master
+    types: [opened, edited, ready_for_review, synchronize, reopened]
   workflow_dispatch:
+
 env:
-  # docker settings
-  tag: "local"
   # dotnet env settings
   dotnet-home: "/home/git/.dotnet"
-  dotnet-build-config: "RELEASE"
-  dotnet-test-runsettings: "./api/tests.Development.runsettings"
-  ASPNETCORE_ENVIRONMENT: "Development"
+  dotnet-build-config: "DEBUG"
+  dotnet-test-runsettings: "tests.Production.runsettings"
+  ASPNETCORE_ENVIRONMENT: "Production"
   sln-path: "./api"
   sln-name: "ActivitySignUp.sln"
-  substitution-file-names: "./api/ActivitySignUpApi/appsettings.Development.json"
+  substitution-file-names: "./api/ActivitySignUpApi/appsettings.Production.json"
   # node env settings
   node-project-home: "client/ActivitySignUpPortal"
-  node-build-config: "local"
+  node-build-config: "production"
 
 jobs:
   prepare-variables:
@@ -78,7 +73,7 @@ jobs:
     with:
       sub-file-name: ${{ needs.prepare-variables.outputs.sub-file-name }}
     secrets:
-      connectionstring: ${{ secrets.local-connectionstring }}
+      connectionstring: ${{ secrets.LOCAL_CONNECTIONSTRING }}
 
   build-run-dotnet-tests:
     uses: ./.github/workflows/job-build-and-run-tests-dotnet.yml
@@ -97,57 +92,3 @@ jobs:
     with:
       node-build-config: "${{ needs.prepare-variables.outputs.node-build-config }}"
       node-project-home: "${{ needs.prepare-variables.outputs.node-project-home }}"
-
-  build-api-image:
-    if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-api-image.yml
-    needs:
-      [
-        prepare-variables,
-        prepare-environment,
-        build-run-dotnet-tests,
-        build-run-node-tests,
-      ]
-    with:
-      tag: ${{ env.tag }}
-
-  build-client-image:
-    if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-client-image.yml
-    needs:
-      [
-        prepare-variables,
-        prepare-environment,
-        build-run-dotnet-tests,
-        build-run-node-tests,
-      ]
-    with:
-      tag: ${{ env.tag }}
-
-  build-proxy-image:
-    if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-proxy-image.yml
-    needs:
-      [
-        prepare-variables,
-        prepare-environment,
-        build-run-dotnet-tests,
-        build-run-node-tests,
-      ]
-    with:
-      tag: ${{ env.tag }}
-
-  build-db-image:
-    if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-db-image.yml
-    needs:
-      [
-        prepare-variables,
-        prepare-environment,
-        build-run-dotnet-tests,
-        build-run-node-tests,
-      ]
-    with:
-      tag: ${{ env.tag }}
-# now add a step to log into the server and restart the service.
-
