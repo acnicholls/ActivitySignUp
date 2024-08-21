@@ -25,6 +25,8 @@ on:
 jobs:
   build-and-run-tests-dotnet:
     runs-on: self-hosted
+    env:
+      ASPNETCORE_ENVIRONMENT: "${{ inputs.ASPNETCORE_ENVIRONMENT }}"
     steps:
       # get the latest code from the repo
       - name: dotnet restore
