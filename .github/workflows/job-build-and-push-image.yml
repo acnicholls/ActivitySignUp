@@ -12,6 +12,9 @@ on:
       code-folder:
         required: true
         type: string
+      docker-file-name:
+        required: true
+        type: string
 
 jobs:
   build-and-push-image:
@@ -36,7 +39,7 @@ jobs:
           cd ${{ inputs.code-folder }}
           docker buildx build --rm --push --platform linux/amd64,linux/arm64 \
               -t ${{ inputs.image-tag }} \
-              -f Dockerfile \
+              -f ${{ inputs.docker-file-name }} \
               .
           docker image tag ${{ inputs.image-tag }} ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-tag }}
           docker image push ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-tag }}

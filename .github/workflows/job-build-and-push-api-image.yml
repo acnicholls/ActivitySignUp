@@ -16,3 +16,4 @@ jobs:
       container-registry: "ghcr.io"
       code-folder: "api"
       image-tag: "activity_api:${{ inputs.tag }}"
+      docker-file-name: "Dockerfile"
