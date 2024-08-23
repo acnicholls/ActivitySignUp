@@ -28,7 +28,18 @@ jobs:
     env:
       ASPNETCORE_ENVIRONMENT: "${{ inputs.ASPNETCORE_ENVIRONMENT }}"
     steps:
-      # get the latest code from the repo
+      - name: Install dotnet
+        env:
+          DOTNET_INSTALL_DIR: "~/.dotnet"
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.x"
+
+      # display environment variables, for audit purposes
+      - name: Check Environment
+        run: |
+          printenv
+
       - name: dotnet restore
         run: |
           cd ${{ inputs.sln-path }}

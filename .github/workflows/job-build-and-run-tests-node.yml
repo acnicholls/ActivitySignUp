@@ -14,6 +14,16 @@ jobs:
   build-and-run-tests-node:
     runs-on: self-hosted
     steps:
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # display environment variables, for audit purposes
+      - name: Check Environment
+        run: |
+          printenv
+
       - name: build angular ui
         run: |
           cd ${{ inputs.node-project-home }}
