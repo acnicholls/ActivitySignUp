@@ -28,6 +28,6 @@ jobs:
         run: |
           cd ${{ inputs.node-project-home }}
           npm install
-          ng build --output-path=dist --configuration=${{ inputs.node-build-config }}
+          npx -p @angular/cli ng build --output-path=dist --configuration=${{ inputs.node-build-config }}
 
 # add run tests step once more tests are added.
