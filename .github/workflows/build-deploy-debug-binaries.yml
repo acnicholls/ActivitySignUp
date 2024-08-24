@@ -1,7 +1,7 @@
 # This script builds and deploys the debug binaries for activity-sign-up
 # the images are then uploaded to github's CR
-name: deploy-debug-binaries
-run-name: Deploy Debug binaries for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
+name: build-test-debug-images
+run-name: Build and Test Debug binaries and images for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
 concurrency:
   group: debug-binaries
 
@@ -19,7 +19,7 @@ env:
   # docker settings
   docker-tag: "local"
   # dotnet env settings
-  dotnet-home: "/home/git/.dotnet"
+  dotnet-home: "~/.dotnet"
   dotnet-build-config: "RELEASE"
   dotnet-test-runsettings: "tests.Development.runsettings"
   ASPNETCORE_ENVIRONMENT: "Development"
@@ -32,7 +32,7 @@ env:
 
 jobs:
   prepare-variables:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       ASPNETCORE_ENVIRONMENT: ${{ steps.get-asp-env-name.outputs.ASPNETCORE_ENVIRONMENT }}
       sub-file-name: ${{ steps.get-sub-file-name.outputs.sub-file-name }}
@@ -101,10 +101,11 @@ jobs:
     with:
       node-build-config: "${{ needs.prepare-variables.outputs.node-build-config }}"
       node-project-home: "${{ needs.prepare-variables.outputs.node-project-home }}"
+      node-version: 18
 
-  build-api-image:
+  build-arm64-images:
     if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-api-image.yml
+    uses: ./.github/workflows/job-build-debug-arm64-images.yml
     needs:
       [
         prepare-variables,
@@ -115,35 +116,9 @@ jobs:
     with:
       tag: ${{ needs.prepare-variables.outputs.docker-tag }}
 
-  build-client-image:
+  build-amd64-images:
     if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-client-image.yml
-    needs:
-      [
-        prepare-variables,
-        prepare-environment,
-        build-run-dotnet-tests,
-        build-run-node-tests,
-      ]
-    with:
-      tag: ${{ needs.prepare-variables.outputs.docker-tag }}
-
-  build-proxy-image:
-    if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-proxy-image.yml
-    needs:
-      [
-        prepare-variables,
-        prepare-environment,
-        build-run-dotnet-tests,
-        build-run-node-tests,
-      ]
-    with:
-      tag: ${{ needs.prepare-variables.outputs.docker-tag }}
-
-  build-db-image:
-    if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-db-image.yml
+    uses: ./.github/workflows/job-build-debug-amd64-images.yml
     needs:
       [
         prepare-variables,

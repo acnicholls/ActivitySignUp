@@ -1,0 +1,31 @@
+# This script builds and deploys the debug binaries for activity-sign-up
+# the images are then uploaded to github's CR
+name: build-debug-images-arm64
+
+on:
+  workflow_call:
+    inputs:
+      docker-tag:
+        required: true
+        type: string
+
+jobs:
+  build-api-image:
+    if: ${{ success() }}
+    uses: ./.github/workflows/job-build-and-push-api-arm64.yml
+    with:
+      tag: ${{ inputs.docker-tag }}
+
+  build-client-image:
+    if: ${{ success() }}
+    uses: ./.github/workflows/job-build-and-push-client-arm64.yml
+    with:
+      tag: ${{ inputs.docker-tag }}
+
+  build-proxy-image:
+    if: ${{ success() }}
+    uses: ./.github/workflows/job-build-and-push-proxy-arm64.yml
+    with:
+      tag: ${{ inputs.docker-tag }}
+# now add a step to log into the server and restart the service.
+

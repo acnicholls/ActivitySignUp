@@ -14,7 +14,7 @@ on:
 
 env:
   # dotnet env settings
-  dotnet-home: "/home/git/.dotnet"
+  dotnet-home: "~/.dotnet"
   dotnet-build-config: "RELEASE"
   dotnet-test-runsettings: "tests.Production.runsettings"
   ASPNETCORE_ENVIRONMENT: "Production"
@@ -92,3 +92,4 @@ jobs:
     with:
       node-build-config: "${{ needs.prepare-variables.outputs.node-build-config }}"
       node-project-home: "${{ needs.prepare-variables.outputs.node-project-home }}"
+      node-version: 18

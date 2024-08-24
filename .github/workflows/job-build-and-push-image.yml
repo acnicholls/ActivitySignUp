@@ -39,26 +39,35 @@ jobs:
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
 
+      - name: "move to code folder"
+        if: ${{ success() }}
+        run: cd ${{ inputs.code-folder }}
+
       - name: "Build Image for multiple platforms"
-        if: ${{ inputs.build-multi-platform }}
+        id: multi-platform-build
+        if: ${{ inputs.build-multi-platform && success()}}
         run: |
-          cd ${{ inputs.code-folder }}
           docker buildx build --rm --push --platform ${{ inputs.arch-types }} \
-              -t ${{ inputs.image-tag }} \
+              -t ${{ inputs.image-name-with-tag }} \
               -f ${{ inputs.docker-file-name }} \
               .
-          docker image tag ${{ inputs.image-tag }} ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-tag }}
-          docker image push ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-tag }}
-          cd ..
 
       - name: "Build Image for single platform"
-        if: ${{ !inputs.build-multi-platform }}
+        id: single-platform-build
+        if: ${{ !inputs.build-multi-platform && success()}}
         run: |
-          cd ${{ inputs.code-folder }}
           docker build --rm --push --platform ${{ inputs.arch-types }} \
-              -t ${{ inputs.image-tag }} \
+              -t ${{ inputs.image-name-with-tag }} \
               -f ${{ inputs.docker-file-name }} \
               .
-          docker image tag ${{ inputs.image-tag }} ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-tag }}
-          docker image push ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-tag }}
-          cd ..
+
+      - name: "Tag image"
+        if: ${{ success() }}
+        run: docker image tag ${{ inputs.image-name-with-tag }} ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-name-with-tag }}
+
+      - name: "Push image"
+        if: ${{ success() }}
+        run: docker image push ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-name-with-tag }}
+
+      - name: "move to top"
+        run: cd ..
