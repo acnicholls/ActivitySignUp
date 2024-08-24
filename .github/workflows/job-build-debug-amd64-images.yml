@@ -11,7 +11,7 @@ on:
 
 jobs:
   build-amd64-images:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: build-api-image
         uses: ./.github/workflows/job-build-and-push-api-amd64.yml

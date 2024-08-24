@@ -9,7 +9,6 @@ on:
 
 jobs:
   build-and-push-api-image:
-    runs-on: ubuntu-latest
     if: ${{ success() }}
     uses: ./.github/workflows/job-build-and-push-image.yml
     name: build and push api image to cr

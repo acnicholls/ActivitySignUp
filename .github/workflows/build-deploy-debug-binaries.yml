@@ -31,7 +31,7 @@ env:
 
 jobs:
   prepare-variables:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       ASPNETCORE_ENVIRONMENT: ${{ steps.get-asp-env-name.outputs.ASPNETCORE_ENVIRONMENT }}
       sub-file-name: ${{ steps.get-sub-file-name.outputs.sub-file-name }}
