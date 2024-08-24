@@ -47,7 +47,7 @@ jobs:
           cd ${{ inputs.code-folder }}
           docker buildx build --rm --push --platform ${{ inputs.arch-types }} \
               -t ${{ inputs.image-name-with-tag }} \
-              -f ./${{ inputs.docker-file-name }} \
+              -f ${{ inputs.docker-file-name }} \
               .
           docker image tag ${{ inputs.image-name-with-tag }} ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-name-with-tag }}
           docker image push ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-name-with-tag }}
@@ -61,7 +61,7 @@ jobs:
           cd ${{ inputs.code-folder }}
           docker build --rm --push --platform ${{ inputs.arch-types }} \
               -t ${{ inputs.image-name-with-tag }} \
-              -f ./${{ inputs.docker-file-name }} \
+              -f ${{ inputs.docker-file-name }} \
               .
           docker image tag ${{ inputs.image-name-with-tag }} ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-name-with-tag }}
           docker image push ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-name-with-tag }}
