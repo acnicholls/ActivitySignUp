@@ -12,6 +12,7 @@ on:
 
 jobs:
   prepare-environment:
+    runs-on: ubuntu-latest
     steps:
       # get the latest code from the repo
       - name: Checkout Code
