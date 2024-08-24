@@ -31,7 +31,7 @@ jobs:
 
   build-db-image:
     if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-db-amd64.yml
+    uses: ./.github/workflows/job-build-and-push-db-image.yml
     with:
       tag: ${{ inputs.docker-tag }}
 # now add a step to log into the server and restart the service.
