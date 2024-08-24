@@ -126,6 +126,6 @@ jobs:
         build-run-node-tests,
       ]
     with:
-      dockertag: ${{ needs.prepare-variables.outputs.docker-tag }}
+      docker-tag: ${{ needs.prepare-variables.outputs.docker-tag }}
 # now add a step to log into the server and restart the service.
 
