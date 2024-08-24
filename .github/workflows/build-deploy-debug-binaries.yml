@@ -113,7 +113,7 @@ jobs:
         build-run-node-tests,
       ]
     with:
-      tag: ${{ needs.prepare-variables.outputs.docker-tag }}
+      docker-tag: ${{ needs.prepare-variables.outputs.docker-tag }}
 
   build-amd64-images:
     if: ${{ success() }}
@@ -126,6 +126,6 @@ jobs:
         build-run-node-tests,
       ]
     with:
-      tag: ${{ needs.prepare-variables.outputs.docker-tag }}
+      dockertag: ${{ needs.prepare-variables.outputs.docker-tag }}
 # now add a step to log into the server and restart the service.
 
