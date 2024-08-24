@@ -13,7 +13,6 @@ on:
       - README.md
       - LICENSE
       - .gitignore
-      - .github/**
   workflow_dispatch:
 env:
   # docker settings
@@ -77,8 +76,8 @@ jobs:
         run: echo "docker-tag=${{ env.docker-tag }}" >> $GITHUB_OUTPUT
 
   prepare-environment:
-    runs-on: ubuntu-latest
     uses: ./.github/workflows/job-prepare-environment.yml
+    runs-on: ubuntu-latest
     needs: [prepare-variables]
     with:
       sub-file-name: ${{ needs.prepare-variables.outputs.sub-file-name }}
