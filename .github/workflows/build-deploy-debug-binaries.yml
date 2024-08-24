@@ -4,6 +4,7 @@ name: build-test-debug-images
 run-name: Build and Test Debug binaries and images for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
 concurrency:
   group: debug-binaries
+  cancel-in-progress: true
 
 on:
   push:

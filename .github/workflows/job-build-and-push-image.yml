@@ -39,30 +39,39 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: "Build Image for multiple platforms"
-        id: multi-platform-build
-        if: ${{ inputs.build-multi-platform && success() }}
-        shell: bash
-        run: |
-          cd ${{ inputs.code-folder }}
-          docker buildx build --rm --push --platform ${{ inputs.arch-types }} \
-              -t ${{ inputs.image-name-with-tag }} \
-              -f ${{ inputs.docker-file-name }} \
-              .
-          docker image tag ${{ inputs.image-name-with-tag }} ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-name-with-tag }}
-          docker image push ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-name-with-tag }}
-          cd ..
+      - name: "build and push"
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ inputs.code-folder }}
+          push: true
+          tags: ${{ inputs.image-name-with-tag }}
+          file: ./${{ inputs.docker-file-name }}
+          platforms: ${{ inputs.arch-types }}
 
-      - name: "Build Image for single platform"
-        id: single-platform-build
-        if: ${{ !inputs.build-multi-platform && success() }}
-        shell: bash
-        run: |
-          cd ${{ inputs.code-folder }}
-          docker build --rm --push --platform ${{ inputs.arch-types }} \
-              -t ${{ inputs.image-name-with-tag }} \
-              -f ${{ inputs.docker-file-name }} \
-              .
-          docker image tag ${{ inputs.image-name-with-tag }} ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-name-with-tag }}
-          docker image push ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-name-with-tag }}
-          cd ..
+      # - name: "Build Image for multiple platforms"
+      #   id: multi-platform-build
+      #   if: ${{ inputs.build-multi-platform && success() }}
+      #   shell: bash
+      #   run: |
+      #     cd ${{ inputs.code-folder }}
+      #     docker buildx build --rm --push --platform ${{ inputs.arch-types }} \
+      #         -t ${{ inputs.image-name-with-tag }} \
+      #         -f ${{ inputs.docker-file-name }} \
+      #         .
+      #     docker image tag ${{ inputs.image-name-with-tag }} ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-name-with-tag }}
+      #     docker image push ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-name-with-tag }}
+      #     cd ..
+
+      # - name: "Build Image for single platform"
+      #   id: single-platform-build
+      #   if: ${{ !inputs.build-multi-platform && success() }}
+      #   shell: bash
+      #   run: |
+      #     cd ${{ inputs.code-folder }}
+      #     docker build --rm --push --platform ${{ inputs.arch-types }} \
+      #         -t ${{ inputs.image-name-with-tag }} \
+      #         -f ${{ inputs.docker-file-name }} \
+      #         .
+      #     docker image tag ${{ inputs.image-name-with-tag }} ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-name-with-tag }}
+      #     docker image push ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-name-with-tag }}
+      #     cd ..
