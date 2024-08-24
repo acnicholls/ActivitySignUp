@@ -55,19 +55,19 @@ jobs:
         run: echo "dotnet-home=${{ env.dotnet-home }}" >> $GITHUB_OUTPUT
       - id: get-sln-path
         shell: bash
-        run: echo "sln-path=${{ defaults.run.working-directory }}/${{ env.sln-path }}" >> $GITHUB_OUTPUT
+        run: echo "sln-path=${{ github.workspace }}/${{ env.sln-path }}" >> $GITHUB_OUTPUT
       - id: get-sln-name
         shell: bash
         run: echo "sln-name=${{ env.sln-name }}" >> $GITHUB_OUTPUT
       - id: get-sub-file-name
         shell: bash
-        run: echo "sub-file-name=${{ defaults.run.working-directory }}/${{ env.substitution-file-names }}" >> $GITHUB_OUTPUT
+        run: echo "sub-file-name=${{ github.workspace }}/${{ env.substitution-file-names }}" >> $GITHUB_OUTPUT
       - id: get-runsettings-name
         shell: bash
         run: echo "runsettings-name=${{ env.dotnet-test-runsettings }}" >> $GITHUB_OUTPUT
       - id: get-node-project-home
         shell: bash
-        run: echo "node-project-home=${{ defaults.run.working-directory }}/${{ env.node-project-home }}" >> $GITHUB_OUTPUT
+        run: echo "node-project-home=${{ github.workspace }}/${{ env.node-project-home }}" >> $GITHUB_OUTPUT
       - id: get-node-build-config
         shell: bash
         run: echo "node-build-config=${{ env.node-build-config }}" >> $GITHUB_OUTPUT
