@@ -15,5 +15,7 @@ jobs:
     with:
       container-registry: "ghcr.io"
       code-folder: "db"
-      image-tag: "activity_db:${{ inputs.tag }}"
+      image-name-with-tag: "activity_db:${{ inputs.tag }}"
+      arch-types: "linux/amd64"
+      build-multi-platform: false
       docker-file-name: "Dockerfile"

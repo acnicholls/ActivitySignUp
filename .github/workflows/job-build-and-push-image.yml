@@ -6,12 +6,18 @@ on:
       container-registry:
         required: true
         type: string
-      image-tag:
+      image-name-with-tag:
         required: true
         type: string
       code-folder:
         required: true
         type: string
+      arch-types:
+        required: true
+        type: string
+      build-multi-platform:
+        required: true
+        type: boolean
       docker-file-name:
         required: true
         type: string
@@ -33,10 +39,23 @@ jobs:
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
 
-      - name: "Build Image"
+      - name: "Build Image for multiple platforms"
+        if: ${{ inputs.build-multi-platform }}
         run: |
           cd ${{ inputs.code-folder }}
-          docker buildx build --rm --push --platform linux/amd64,linux/arm64 \
+          docker buildx build --rm --push --platform ${{ inputs.arch-types }} \
+              -t ${{ inputs.image-tag }} \
+              -f ${{ inputs.docker-file-name }} \
+              .
+          docker image tag ${{ inputs.image-tag }} ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-tag }}
+          docker image push ${{ inputs.container-registry }}/${{ github.actor }}/${{ inputs.image-tag }}
+          cd ..
+
+      - name: "Build Image for single platform"
+        if: ${{ !inputs.build-multi-platform }}
+        run: |
+          cd ${{ inputs.code-folder }}
+          docker build --rm --push --platform ${{ inputs.arch-types }} \
               -t ${{ inputs.image-tag }} \
               -f ${{ inputs.docker-file-name }} \
               .

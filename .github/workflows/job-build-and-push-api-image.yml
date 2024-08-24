@@ -15,5 +15,7 @@ jobs:
     with:
       container-registry: "ghcr.io"
       code-folder: "api"
-      image-tag: "activity_api:${{ inputs.tag }}"
+      image-name-with-tag: "activity_api:${{ inputs.tag }}"
+      arch-types: "linux/arm64,linux/amd64"
+      build-multi-platform: true
       docker-file-name: "Dockerfile"
