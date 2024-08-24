@@ -14,7 +14,7 @@ jobs:
     name: build and push api image to cr
     with:
       container-registry: "ghcr.io"
-      code-folder: "api"
+      code-folder: "${{ github.workspace }}/api"
       image-name-with-tag: "activity_api:${{ inputs.tag }}"
       arch-types: "linux/amd64"
       build-multi-platform: false

@@ -14,7 +14,7 @@ jobs:
     name: build and push client image to cr
     with:
       container-registry: "ghcr.io"
-      code-folder: "client"
+      code-folder: "${{ github.workspace }}/api"
       image-name-with-tag: "activity_client:${{ inputs.tag }}"
       arch-types: "linux/amd64"
       build-multi-platform: false

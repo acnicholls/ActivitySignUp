@@ -14,7 +14,7 @@ jobs:
     name: build and push db image to cr
     with:
       container-registry: "ghcr.io"
-      code-folder: "db"
+      code-folder: "${{ github.workspace }}/db"
       image-name-with-tag: "activity_db:${{ inputs.tag }}"
       arch-types: "linux/amd64"
       build-multi-platform: false

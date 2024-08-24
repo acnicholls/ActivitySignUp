@@ -14,7 +14,7 @@ jobs:
     name: build and push proxy image to cr
     with:
       container-registry: "ghcr.io"
-      code-folder: "proxy"
+      code-folder: "${{ github.workspace }}/proxy"
       image-name-with-tag: "activity_proxy:${{ inputs.tag }}"
       arch-types: "linux/arm64"
       build-multi-platform: false

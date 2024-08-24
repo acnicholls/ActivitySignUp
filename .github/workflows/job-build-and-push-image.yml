@@ -42,6 +42,7 @@ jobs:
       - name: "Build Image for multiple platforms"
         id: multi-platform-build
         if: ${{ inputs.build-multi-platform && success() }}
+        shell: bash
         run: |
           cd ${{ inputs.code-folder }}
           docker buildx build --rm --push --platform ${{ inputs.arch-types }} \
@@ -55,6 +56,7 @@ jobs:
       - name: "Build Image for single platform"
         id: single-platform-build
         if: ${{ !inputs.build-multi-platform && success() }}
+        shell: bash
         run: |
           cd ${{ inputs.code-folder }}
           docker build --rm --push --platform ${{ inputs.arch-types }} \
