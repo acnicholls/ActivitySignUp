@@ -77,6 +77,7 @@ jobs:
         run: echo "docker-tag=${{ env.docker-tag }}" >> $GITHUB_OUTPUT
 
   prepare-environment:
+    runs-on: ubuntu-latest
     uses: ./.github/workflows/job-prepare-environment.yml
     needs: [prepare-variables]
     with:
@@ -85,6 +86,7 @@ jobs:
       connectionstring: ${{ secrets.local-connectionstring }}
 
   build-run-dotnet-tests:
+    runs-on: ubuntu-latest
     uses: ./.github/workflows/job-build-and-run-tests-dotnet.yml
     needs: [prepare-variables, prepare-environment]
     with:
@@ -96,6 +98,7 @@ jobs:
       runsettings-name: "${{ needs.prepare-variables.outputs.runsettings-name }}"
 
   build-run-node-tests:
+    runs-on: ubuntu-latest
     uses: ./.github/workflows/job-build-and-run-tests-node.yml
     needs: [prepare-variables, prepare-environment]
     with:
@@ -104,6 +107,7 @@ jobs:
       node-version: 18
 
   build-arm64-images:
+    runs-on: ubuntu-latest
     if: ${{ success() }}
     uses: ./.github/workflows/job-build-debug-arm64-images.yml
     needs:
@@ -117,6 +121,7 @@ jobs:
       tag: ${{ needs.prepare-variables.outputs.docker-tag }}
 
   build-amd64-images:
+    runs-on: ubuntu-latest
     if: ${{ success() }}
     uses: ./.github/workflows/job-build-debug-amd64-images.yml
     needs:
