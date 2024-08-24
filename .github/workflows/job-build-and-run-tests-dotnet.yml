@@ -24,13 +24,12 @@ on:
 
 jobs:
   build-and-run-tests-dotnet:
-    runs-on: self-hosted
     env:
       ASPNETCORE_ENVIRONMENT: "${{ inputs.ASPNETCORE_ENVIRONMENT }}"
     steps:
       - name: Install dotnet
         env:
-          DOTNET_INSTALL_DIR: "~/.dotnet"
+          DOTNET_INSTALL_DIR: ${{ inputs.dotnet-home }}
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.x"

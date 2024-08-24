@@ -9,25 +9,27 @@ on:
       node-project-home:
         required: true
         type: string
+      node-version:
+        required: true
+        type: number
 
 jobs:
   build-and-run-tests-node:
-    runs-on: self-hosted
     steps:
       - name: Install node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: ${{ inputs.node-version }}
 
       # display environment variables, for audit purposes
       - name: Check Environment
         run: |
           printenv
 
+      # add run tests step once more tests are added.
+      # next build the angular ui browser app
       - name: build angular ui
         run: |
           cd ${{ inputs.node-project-home }}
           npm install
           npx -p @angular/cli ng build --output-path=dist --configuration=${{ inputs.node-build-config }}
-
-# add run tests step once more tests are added.

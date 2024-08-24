@@ -12,7 +12,6 @@ on:
 
 jobs:
   prepare-environment:
-    runs-on: self-hosted
     steps:
       # get the latest code from the repo
       - name: Checkout Code
