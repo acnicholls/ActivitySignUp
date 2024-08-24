@@ -24,6 +24,7 @@ on:
 
 jobs:
   build-and-run-tests-dotnet:
+    runs-on: ubuntu-latest
     env:
       ASPNETCORE_ENVIRONMENT: "${{ inputs.ASPNETCORE_ENVIRONMENT }}"
     steps:
