@@ -10,22 +10,22 @@ on:
         type: string
 
 jobs:
-  build-api-image:
-    if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-api-arm64.yml
-    with:
-      tag: ${{ inputs.docker-tag }}
+  build-arm64-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: build-api-image
+        uses: ./.github/workflows/job-build-and-push-api-arm64.yml
+        with:
+          tag: ${{ inputs.docker-tag }}
 
-  build-client-image:
-    if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-client-arm64.yml
-    with:
-      tag: ${{ inputs.docker-tag }}
+      - name: build-client-image
+        uses: ./.github/workflows/job-build-and-push-client-arm64.yml
+        with:
+          tag: ${{ inputs.docker-tag }}
 
-  build-proxy-image:
-    if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-proxy-arm64.yml
-    with:
-      tag: ${{ inputs.docker-tag }}
+      - name: build-proxy-image
+        uses: ./.github/workflows/job-build-and-push-proxy-arm64.yml
+        with:
+          tag: ${{ inputs.docker-tag }}
 # now add a step to log into the server and restart the service.
 

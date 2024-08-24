@@ -10,29 +10,27 @@ on:
         type: string
 
 jobs:
-  build-api-image:
-    if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-api-amd64.yml
-    with:
-      tag: ${{ inputs.docker-tag }}
+  build-amd64-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: build-api-image
+        uses: ./.github/workflows/job-build-and-push-api-amd64.yml
+        with:
+          tag: ${{ inputs.docker-tag }}
 
-  build-client-image:
-    if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-client-amd64.yml
+      - name: build-client-image
+        uses: ./.github/workflows/job-build-and-push-client-amd64.yml
+        with:
+          tag: ${{ inputs.docker-tag }}
 
-    with:
-      tag: ${{ inputs.docker-tag }}
+      - name: build-proxy-image
+        uses: ./.github/workflows/job-build-and-push-proxy-amd64.yml
+        with:
+          tag: ${{ inputs.docker-tag }}
 
-  build-proxy-image:
-    if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-proxy-amd64.yml
-    with:
-      tag: ${{ inputs.docker-tag }}
-
-  build-db-image:
-    if: ${{ success() }}
-    uses: ./.github/workflows/job-build-and-push-db-image.yml
-    with:
-      tag: ${{ inputs.docker-tag }}
+      - name: build-db-image
+        uses: ./.github/workflows/job-build-and-push-db-image.yml
+        with:
+          tag: ${{ inputs.docker-tag }}
 # now add a step to log into the server and restart the service.
 
