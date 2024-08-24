@@ -22,9 +22,9 @@ env:
   dotnet-build-config: "RELEASE"
   dotnet-test-runsettings: "tests.Development.runsettings"
   ASPNETCORE_ENVIRONMENT: "Development"
-  sln-path: "./api"
+  sln-path: "api"
   sln-name: "ActivitySignUp.sln"
-  substitution-file-names: "./api/ActivitySignUpApi/appsettings.Development.json"
+  substitution-file-names: "api/ActivitySignUpApi/appsettings.Development.json"
   # node env settings
   node-project-home: "client/ActivitySignUpPortal"
   node-build-config: "local"
@@ -55,19 +55,19 @@ jobs:
         run: echo "dotnet-home=${{ env.dotnet-home }}" >> $GITHUB_OUTPUT
       - id: get-sln-path
         shell: bash
-        run: echo "sln-path=${{ env.sln-path }}" >> $GITHUB_OUTPUT
+        run: echo "sln-path=${{ defaults.run.working-directory }}/${{ env.sln-path }}" >> $GITHUB_OUTPUT
       - id: get-sln-name
         shell: bash
         run: echo "sln-name=${{ env.sln-name }}" >> $GITHUB_OUTPUT
       - id: get-sub-file-name
         shell: bash
-        run: echo "sub-file-name=${{ env.substitution-file-names }}" >> $GITHUB_OUTPUT
+        run: echo "sub-file-name=${{ defaults.run.working-directory }}/${{ env.substitution-file-names }}" >> $GITHUB_OUTPUT
       - id: get-runsettings-name
         shell: bash
         run: echo "runsettings-name=${{ env.dotnet-test-runsettings }}" >> $GITHUB_OUTPUT
       - id: get-node-project-home
         shell: bash
-        run: echo "node-project-home=${{ env.node-project-home }}" >> $GITHUB_OUTPUT
+        run: echo "node-project-home=${{ defaults.run.working-directory }}/${{ env.node-project-home }}" >> $GITHUB_OUTPUT
       - id: get-node-build-config
         shell: bash
         run: echo "node-build-config=${{ env.node-build-config }}" >> $GITHUB_OUTPUT
