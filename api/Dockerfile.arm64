@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 as build-deps
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-deps
 
 WORKDIR /app
 
@@ -15,7 +15,7 @@ COPY ./ActivitySignUpValidation/ActivitySignUpValidation.csproj ./ActivitySignUp
 COPY ./ActivitySignUpValidationTests/ActivitySignUpValidationTests.csproj ./ActivitySignUpValidationTests/
 COPY ./ActivitySignUpApi/ActivitySignUpApi.csproj ./ActivitySignUpApi/
 # restore nuget packages
-RUN dotnet restore
+RUN dotnet restore /app/ActivitySignUp.sln
 
 # Constants
 COPY ./ActivitySignUpConstants/StoredProcedures.cs ./ActivitySignUpConstants/
@@ -48,7 +48,7 @@ COPY ./ActivitySignUpApi/appsettings.json ./ActivitySignUpApi/appsettings.json
 COPY ./ActivitySignUpApi/appsettings.arm64-latest.json ./ActivitySignUpApi/appsettings.arm64-latest.json
 COPY ./ActivitySignUpApi/Controllers ./ActivitySignUpApi/Controllers/
 
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -c Release -o out /app/ActivitySignUp.sln
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 as final-build
 
