@@ -1,5 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-deps
 
+ENV DOTNET_JITMinOpts=1
+
 WORKDIR /app
 
 # copy the solution file
@@ -50,7 +52,7 @@ COPY ./ActivitySignUpApi/Controllers ./ActivitySignUpApi/Controllers/
 
 RUN dotnet publish -c Release -o out /app/ActivitySignUp.sln
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 as final-build
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final-build
 
 WORKDIR /app
 
