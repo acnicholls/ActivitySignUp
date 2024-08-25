@@ -92,6 +92,7 @@ jobs:
           ConnectionStrings.ActivitySignUpDatabase: ${{ secrets.connectionstring }}
 
       ## DOTNET BUILD AND TEST
+
       - name: Install dotnet
         env:
           DOTNET_INSTALL_DIR: "~/.dotnet"
