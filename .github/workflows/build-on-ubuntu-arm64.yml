@@ -1,6 +1,6 @@
 # This script builds and deploys the debug binaries for activity-sign-up
 # the images are then uploaded to github's CR
-name: build-test-debug-images
+name: build-test-containerize-debug-images-arm64
 run-name: Build and Test Debug ARM64 binaries and images for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
 concurrency:
   group: debug-binaries
