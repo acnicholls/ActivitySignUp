@@ -112,7 +112,7 @@ jobs:
       - name: dotnet test
         run: |
           cd ${{ steps.get-sln-path.outputs.sln-path }}
-          ~./.dotnet/dotnet test ./${{ steps.get-sln-name.outputs.sln-name }} \
+          ~/.dotnet/dotnet test ./${{ steps.get-sln-name.outputs.sln-name }} \
               -c ${{ steps.get-dotnet-build-config.outputs.dotnet-build-config }} \
               --settings:./${{ steps.get-runsettings-name.outputs.runsettings-name }}
 
