@@ -1,6 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-deps
 
 ENV DOTNET_JITMinOpts=1
+ENV DOTNET_EnableWriteXorExecute=0
 
 WORKDIR /app
 
