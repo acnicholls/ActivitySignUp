@@ -16,14 +16,12 @@ COPY ./ActivitySignUpPortal .
 RUN npm install --legacy-peer-deps
 RUN npm install -g @angular/cli@10.0.4
 
-
 # run the tests
 # RUN ng test --watch=false
 # RUN ng e2e --port 4202
 
 # generate build
 RUN ng build --output-path=dist --configuration=production
-
 
 ###  PRODUCTION IMAGE
 FROM nginx:1.16.0-alpine

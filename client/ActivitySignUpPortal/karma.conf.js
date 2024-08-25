@@ -14,9 +14,6 @@ module.exports = function (config) {
     ],
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
-      mocha: {
-        timeout: 10000,
-      },
     },
     coverageIstanbulReporter: {
       dir: require("path").join(__dirname, "./coverage/ActivitySignUpPortal"),

@@ -16,14 +16,12 @@ COPY ./ActivitySignUpPortal .
 RUN npm install --force
 RUN npm install -g @angular/cli
 
-
 # run the tests
 # RUN ng test --watch=false
 # RUN ng e2e --port 4202
 
 # generate build
 RUN ng build --output-path=dist --configuration=arm64
-
 
 ###  PRODUCTION IMAGE
 FROM nginx:1.16.0-alpine
