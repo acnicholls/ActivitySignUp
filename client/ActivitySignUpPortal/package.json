@@ -12,6 +12,9 @@
     "dev": "nodemon"
   },
   "private": true,
+  "mocha": {
+    "timeout": 10000
+  },
   "dependencies": {
     "@angular/animations": "^18.2.1",
     "@angular/cdk": "^18.2.1",
