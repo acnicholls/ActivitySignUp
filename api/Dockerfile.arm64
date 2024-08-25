@@ -51,7 +51,7 @@ COPY ./ActivitySignUpApi/appsettings.json ./ActivitySignUpApi/appsettings.json
 COPY ./ActivitySignUpApi/appsettings.arm64-latest.json ./ActivitySignUpApi/appsettings.arm64-latest.json
 COPY ./ActivitySignUpApi/Controllers ./ActivitySignUpApi/Controllers/
 
-RUN dotnet publish -c Release --no-restore -o out /app/ActivitySignUp.sln
+RUN dotnet publish -c Release -o out /app/ActivitySignUp.sln
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final-build
 
