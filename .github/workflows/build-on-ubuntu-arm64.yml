@@ -29,12 +29,6 @@ env:
   # node env settings
   node-project-home: "client/ActivitySignUpPortal"
   node-build-config: "local"
-  dockerfile-api: "api/Dockerfile.arm64"
-  docker-context-api: "api"
-  dockerfile-client: "client/Dockerfile.arm64"
-  docker-context-client: "client"
-  dockerfile-proxy: "proxy/Dockerfile.arm64"
-  docker-context-proxy: "proxy"
 
 jobs:
   build-test-containerize:
