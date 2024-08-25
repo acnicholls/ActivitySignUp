@@ -135,7 +135,7 @@ jobs:
         run: |
           cd ./client/ActivitySignUpPortal
           npm install --legacy-peer-deps
-          npx -p @angular/cli ng build --output-path=dist --configuration=${{ steps.get-node-build-config.node-build-config }}
+          npx -p @angular/cli ng build --output-path=dist --configuration=${{ steps.get-node-build-config.outputs.node-build-config }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
