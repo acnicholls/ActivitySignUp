@@ -150,7 +150,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "build and push api"
-        if: ${{ steps.login-cr.success }}
         uses: docker/build-push-action@v6
         with:
           context: ./api
@@ -160,7 +159,6 @@ jobs:
           platforms: "linux/arm64"
 
       - name: "build and push client"
-        if: ${{ steps.login-cr.success }}
         uses: docker/build-push-action@v6
         with:
           context: ./client
@@ -170,7 +168,6 @@ jobs:
           platforms: "linux/arm64"
 
       - name: "build and push proxy"
-        if: ${{ steps.login-cr.success }}
         uses: docker/build-push-action@v6
         with:
           context: ./proxy
