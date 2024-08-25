@@ -111,12 +111,12 @@ jobs:
 
       - name: dotnet restore
         run: |
-          cd ${{ steps.get-sln-path.outputs.sln-name }}
+          cd ${{ steps.get-sln-path.outputs.sln-path }}
           ${{ steps.get-dotnet-home.outputs.dotnet-home }}/dotnet restore ./${{ steps.get-sln-name.outputs.sln-name }}
 
       - name: dotnet test
         run: |
-          cd ${{ steps.get-sln-path.outputs.sln-name }}
+          cd ${{ steps.get-sln-path.outputs.sln-path }}
           ${{ steps.get-dotnet-home.outputs.dotnet-home }}/dotnet test ./${{ steps.get-sln-name.outputs.sln-name }} \
               -c ${{ steps.get-dotnet-build-config.dotnet-build-config }} \
               --settings:./${{ steps.get-runsettings-name.outputs.runsettings-name }}
