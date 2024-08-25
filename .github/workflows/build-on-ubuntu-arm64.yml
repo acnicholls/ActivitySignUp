@@ -134,7 +134,7 @@ jobs:
       - name: build angular ui
         run: |
           cd ./client/ActivitySignUpPortal
-          npm install
+          npm install --legacy-peer-deps
           npx -p @angular/cli ng build --output-path=dist --configuration=${{ steps.get-node-build-config.node-build-config }}
 
       - name: Set up QEMU
