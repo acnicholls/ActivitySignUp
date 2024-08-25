@@ -9,7 +9,7 @@ concurrency:
 on:
   push:
     branches:
-      - develop
+      #- develop
     paths-ignore:
       - README.md
       - LICENSE
