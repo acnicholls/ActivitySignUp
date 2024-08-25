@@ -15,7 +15,7 @@ COPY ./ActivitySignUpValidation/ActivitySignUpValidation.csproj ./ActivitySignUp
 COPY ./ActivitySignUpValidationTests/ActivitySignUpValidationTests.csproj ./ActivitySignUpValidationTests/
 COPY ./ActivitySignUpApi/ActivitySignUpApi.csproj ./ActivitySignUpApi/
 # restore nuget packages
-RUN dotnet restore /app/ActivitySignUp.sln
+RUN dotnet restore 
 
 # Constants
 COPY ./ActivitySignUpConstants/StoredProcedures.cs ./ActivitySignUpConstants/
