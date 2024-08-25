@@ -118,7 +118,7 @@ jobs:
         run: |
           cd ${{ steps.get-sln-path.outputs.sln-path }}
           ${{ steps.get-dotnet-home.outputs.dotnet-home }}/dotnet test ./${{ steps.get-sln-name.outputs.sln-name }} \
-              -c ${{ steps.get-dotnet-build-config.dotnet-build-config }} \
+              -c ${{ steps.get-dotnet-build-config.outputs.dotnet-build-config }} \
               --settings:./${{ steps.get-runsettings-name.outputs.runsettings-name }}
 
       ####  NODE BUILD AND TEST
