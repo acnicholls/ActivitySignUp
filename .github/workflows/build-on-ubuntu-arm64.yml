@@ -160,15 +160,6 @@ jobs:
           file: ./api/Dockerfile.arm64
           platforms: "linux/arm64"
 
-      - name: "build and push client"
-        uses: docker/build-push-action@v6
-        with:
-          context: ./client
-          push: true
-          tags: "ghcr.io/acnicholls/activity_client:${{ steps.get-docker-tag.outputs.docker-tag }}"
-          file: ./client/Dockerfile.arm64
-          platforms: "linux/arm64"
-
       - name: "build and push proxy"
         uses: docker/build-push-action@v6
         with:
@@ -176,4 +167,13 @@ jobs:
           push: true
           tags: "ghcr.io/acnicholls/activity_proxy:${{ steps.get-docker-tag.outputs.docker-tag }}"
           file: ./proxy/Dockerfile.arm64
+          platforms: "linux/arm64"
+
+      - name: "build and push client"
+        uses: docker/build-push-action@v6
+        with:
+          context: ./client
+          push: true
+          tags: "ghcr.io/acnicholls/activity_client:${{ steps.get-docker-tag.outputs.docker-tag }}"
+          file: ./client/Dockerfile.arm64
           platforms: "linux/arm64"
