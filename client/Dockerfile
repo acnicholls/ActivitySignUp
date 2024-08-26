@@ -7,14 +7,14 @@ FROM node:18 AS build
 
 WORKDIR /app
 
-ENV PATH /app/node_modules/.bin:$PATH
+ENV PATH=/app/node_modules/.bin:$PATH
 
 # copy the application files
 COPY ./ActivitySignUpPortal .
 
 # install npm packges
-RUN npm install --legacy-peer-deps
 RUN npm install -g @angular/cli@10.0.4
+RUN npm install --legacy-peer-deps
 
 # run the tests
 # RUN ng test --watch=false

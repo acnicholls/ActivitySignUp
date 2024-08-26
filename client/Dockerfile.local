@@ -3,7 +3,7 @@ FROM node:18 AS build
 WORKDIR /app
 
 ENV CHOKIDAR_USEPOLLING=true
-ENV PATH /app/node_modules/.bin:$PATH
+ENV PATH=/app/node_modules/.bin:$PATH
 
 # copy the application files
 COPY ./ActivitySignUpPortal .
