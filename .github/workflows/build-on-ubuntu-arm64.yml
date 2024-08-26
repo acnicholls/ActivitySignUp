@@ -28,6 +28,7 @@ env:
   # node env settings
   node-project-home: "client/ActivitySignUpPortal"
   node-build-config: "local"
+  node-version: 18
 
 jobs:
   build-test-containerize:
@@ -42,6 +43,7 @@ jobs:
       node-project-home: ${{ steps.get-node-project-home.outputs.node-project-home }}
       node-build-config: ${{ steps.get-node-build-config.outputs.node-build-config }}
       docker-tag: ${{ steps.get-docker-tag.outputs.docker-tag }}
+      node-version: ${{ steps.get-node-version.outputs.node-version }}
     steps:
       - id: get-asp-env-name
         shell: bash
@@ -67,6 +69,9 @@ jobs:
       - id: get-node-build-config
         shell: bash
         run: echo "node-build-config=${{ env.node-build-config }}" >> $GITHUB_OUTPUT
+      - id: get-node-version
+        shell: bash
+        run: echo "node-version=${{ env.node-version }}" >> GITHUB_OUTPUT
       - id: get-docker-tag
         shell: bash
         run: echo "docker-tag=${{ env.docker-tag }}" >> $GITHUB_OUTPUT
