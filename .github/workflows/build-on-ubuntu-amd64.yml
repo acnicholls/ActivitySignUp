@@ -3,7 +3,7 @@
 name: build-test-containerize-debug-images-amd64
 run-name: Build and Test Debug AMD64 binaries and images for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
 concurrency:
-  group: debug-binaries
+  group: debug-binaries-amd64
   cancel-in-progress: true
 
 on:
