@@ -1,9 +1,9 @@
 # This script builds and deploys the debug binaries for activity-sign-up
 # the images are then uploaded to github's CR
-name: build-test-containerize-debug-images-amd64
-run-name: Build and Test Debug AMD64 binaries and images for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
+name: build-test-containerize-debug-images-multi
+run-name: Build and Test Debug ARM64/AMD64 binaries and images for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
 concurrency:
-  group: debug-binaries-amd64
+  group: debug-binaries-multi
   cancel-in-progress: true
 
 on:
@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
 env:
   # docker settings
-  docker-tag: "local-amd64"
+  docker-tag: "local"
   # dotnet env settings
   dotnet-build-config: "RELEASE"
   dotnet-test-runsettings: "tests.Development.runsettings"
@@ -142,11 +142,11 @@ jobs:
           npm install --legacy-peer-deps
           npx -p @angular/cli ng build --output-path=dist --configuration=${{ steps.get-node-build-config.outputs.node-build-config }}
 
-      # - name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: "Login to Container Registry"
         id: login-cr
@@ -163,7 +163,7 @@ jobs:
           push: true
           tags: "ghcr.io/acnicholls/activity_api:${{ steps.get-docker-tag.outputs.docker-tag }}"
           file: ./api/Dockerfile
-          platforms: "linux/amd64"
+          platforms: "linux/arm64,linux/amd64"
 
       - name: "build and push proxy"
         uses: docker/build-push-action@v6
@@ -172,7 +172,7 @@ jobs:
           push: true
           tags: "ghcr.io/acnicholls/activity_proxy:${{ steps.get-docker-tag.outputs.docker-tag }}"
           file: ./proxy/Dockerfile
-          platforms: "linux/amd64"
+          platforms: "linux/arm64,linux/amd64"
 
       - name: "build and push client"
         uses: docker/build-push-action@v6
@@ -181,4 +181,4 @@ jobs:
           push: true
           tags: "ghcr.io/acnicholls/activity_client:${{ steps.get-docker-tag.outputs.docker-tag }}"
           file: ./client/Dockerfile
-          platforms: "linux/amd64"
+          platforms: "linux/arm64,linux/amd64"

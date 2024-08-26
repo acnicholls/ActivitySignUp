@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
 env:
   # docker settings
-  docker-tag: "local"
+  docker-tag: "local-arm64"
   # dotnet env settings
   dotnet-build-config: "RELEASE"
   dotnet-test-runsettings: "tests.Development.runsettings"
