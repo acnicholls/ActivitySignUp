@@ -1,23 +1,16 @@
 # This script builds and deploys the debug binaries for activity-sign-up
 # the images are then uploaded to github's CR
-name: build-test-containerize-debug-images-arm64
-run-name: Build and Test Debug ARM64 binaries and images for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
+name: build-test-containerize-debug-images-multi
+run-name: Build and Test Debug ARM64/AMD64 binaries and images for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
 concurrency:
-  group: debug-binaries-arm64
+  group: debug-binaries-multi
   cancel-in-progress: true
 
 on:
-  push:
-    branches:
-      - develop
-    paths-ignore:
-      - README.md
-      - LICENSE
-      - .gitignore
   workflow_dispatch:
 env:
   # docker settings
-  docker-tag: "local-arm64"
+  docker-tag: "local"
   # dotnet env settings
   dotnet-build-config: "RELEASE"
   dotnet-test-runsettings: "tests.Development.runsettings"
@@ -162,8 +155,8 @@ jobs:
           context: ./api
           push: true
           tags: "ghcr.io/acnicholls/activity_api:${{ steps.get-docker-tag.outputs.docker-tag }}"
-          file: ./api/Dockerfile.arm64
-          platforms: "linux/arm64"
+          file: ./api/Dockerfile
+          platforms: "linux/arm64,linux/amd64"
 
       - name: "build and push proxy"
         uses: docker/build-push-action@v6
@@ -171,8 +164,8 @@ jobs:
           context: ./proxy
           push: true
           tags: "ghcr.io/acnicholls/activity_proxy:${{ steps.get-docker-tag.outputs.docker-tag }}"
-          file: ./proxy/Dockerfile.arm64
-          platforms: "linux/arm64"
+          file: ./proxy/Dockerfile
+          platforms: "linux/arm64,linux/amd64"
 
       - name: "build and push client"
         uses: docker/build-push-action@v6
@@ -180,5 +173,5 @@ jobs:
           context: ./client
           push: true
           tags: "ghcr.io/acnicholls/activity_client:${{ steps.get-docker-tag.outputs.docker-tag }}"
-          file: ./client/Dockerfile.arm64
-          platforms: "linux/arm64"
+          file: ./client/Dockerfile
+          platforms: "linux/arm64,linux/amd64"
