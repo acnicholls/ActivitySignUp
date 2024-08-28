@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30320.27
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivitySignUpApi", "ActivitySignUpApi\ActivitySignUpApi.csproj", "{04189064-E7A0-43AC-B5A3-53ADCF3BC6A9}"
 EndProject
@@ -16,6 +16,16 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivitySignUpConstants", "ActivitySignUpConstants\ActivitySignUpConstants.csproj", "{CB9CF937-F9DD-4535-BE3C-FE853180A912}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivitySignUpRepositoryTests", "ActivitySignUpRepositoryTests\ActivitySignUpRepositoryTests.csproj", "{68987856-272E-4DC9-A563-E2C0361058A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{4A52142F-1B2C-45F2-9B9C-D3E7CF536F13}"
+	ProjectSection(SolutionItems) = preProject
+		tests.local.runsettings = tests.local.runsettings
+		tests.runsettings = tests.runsettings
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivitySignUpServiceTests", "ActivitySignUpServiceTests\ActivitySignUpServiceTests.csproj", "{34BF010B-4B27-4835-A76F-8F3FEA03BE65}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivitySignUpValidationTests", "ActivitySignUpValidationTests\ActivitySignUpValidationTests.csproj", "{040C1B88-67D1-4787-80A9-653428D6AEF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +61,14 @@ Global
 		{68987856-272E-4DC9-A563-E2C0361058A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68987856-272E-4DC9-A563-E2C0361058A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68987856-272E-4DC9-A563-E2C0361058A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34BF010B-4B27-4835-A76F-8F3FEA03BE65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34BF010B-4B27-4835-A76F-8F3FEA03BE65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34BF010B-4B27-4835-A76F-8F3FEA03BE65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34BF010B-4B27-4835-A76F-8F3FEA03BE65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{040C1B88-67D1-4787-80A9-653428D6AEF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{040C1B88-67D1-4787-80A9-653428D6AEF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{040C1B88-67D1-4787-80A9-653428D6AEF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{040C1B88-67D1-4787-80A9-653428D6AEF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

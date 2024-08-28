@@ -1,0 +1,95 @@
+# This script builds the debug binaries for activity-sign-up
+# the images are then uploaded to github's CR
+name: build-release-binaries
+run-name: Build Release binaries for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
+concurrency:
+  group: release-binaries
+
+on:
+  pull_request_target:
+    target_branches:
+      - master
+    types: [opened, edited, ready_for_review, synchronize, reopened]
+  workflow_dispatch:
+
+env:
+  # dotnet env settings
+  dotnet-home: "~/.dotnet"
+  dotnet-build-config: "RELEASE"
+  dotnet-test-runsettings: "tests.Production.runsettings"
+  ASPNETCORE_ENVIRONMENT: "Production"
+  sln-path: "./api"
+  sln-name: "ActivitySignUp.sln"
+  substitution-file-names: "./api/ActivitySignUpApi/appsettings.Production.json"
+  # node env settings
+  node-project-home: "client/ActivitySignUpPortal"
+  node-build-config: "production"
+
+jobs:
+  prepare-variables:
+    runs-on: self-hosted
+    outputs:
+      ASPNETCORE_ENVIRONMENT: ${{ steps.get-asp-env-name.outputs.ASPNETCORE_ENVIRONMENT }}
+      sub-file-name: ${{ steps.get-sub-file-name.outputs.sub-file-name }}
+      dotnet-build-config: ${{ steps.get-dotnet-build-config.outputs.dotnet-build-config }}
+      dotnet-home: ${{ steps.get-dotnet-home.outputs.dotnet-home }}
+      sln-path: ${{ steps.get-sln-path.outputs.sln-path }}
+      sln-name: ${{ steps.get-sln-name.outputs.sln-name }}
+      runsettings-name: ${{ steps.get-runsettings-name.outputs.runsettings-name }}
+      node-project-home: ${{ steps.get-node-project-home.outputs.node-project-home }}
+      node-build-config: ${{ steps.get-node-build-config.outputs.node-build-config }}
+    steps:
+      - id: get-asp-env-name
+        shell: bash
+        run: echo "ASPNETCORE_ENVIRONMENT=${{ env.ASPNETCORE_ENVIRONMENT }}"
+      - id: get-dotnet-build-config
+        shell: bash
+        run: echo "dotnet-build-config=${{ env.dotnet-build-config }}" >> $GITHUB_OUTPUT
+      - id: get-dotnet-home
+        shell: bash
+        run: echo "dotnet-home=${{ env.dotnet-home }}" >> $GITHUB_OUTPUT
+      - id: get-sln-path
+        shell: bash
+        run: echo "sln-path=${{ env.sln-path }}" >> $GITHUB_OUTPUT
+      - id: get-sln-name
+        shell: bash
+        run: echo "sln-name=${{ env.sln-name }}" >> $GITHUB_OUTPUT
+      - id: get-sub-file-name
+        shell: bash
+        run: echo "sub-file-name=${{ env.substitution-file-names }}" >> $GITHUB_OUTPUT
+      - id: get-runsettings-name
+        shell: bash
+        run: echo "runsettings-name=${{ env.dotnet-test-runsettings }}" >> $GITHUB_OUTPUT
+      - id: get-node-project-home
+        shell: bash
+        run: echo "node-project-home=${{ env.node-project-home }}" >> $GITHUB_OUTPUT
+      - id: get-node-build-config
+        shell: bash
+        run: echo "node-build-config=${{ env.node-build-config }}" >> $GITHUB_OUTPUT
+
+  prepare-environment:
+    uses: ./.github/workflows/job-prepare-environment.yml
+    needs: [prepare-variables]
+    with:
+      sub-file-name: ${{ needs.prepare-variables.outputs.sub-file-name }}
+    secrets:
+      connectionstring: ${{ secrets.LOCAL_CONNECTIONSTRING }}
+
+  build-run-dotnet-tests:
+    uses: ./.github/workflows/job-build-and-run-tests-dotnet.yml
+    needs: [prepare-variables, prepare-environment]
+    with:
+      ASPNETCORE_ENVIRONMENT: "${{ needs.prepare-variables.outputs.ASPNETCORE_ENVIRONMENT }}"
+      dotnet-build-config: "${{ needs.prepare-variables.outputs.dotnet-build-config }}"
+      dotnet-home: "${{ needs.prepare-variables.outputs.dotnet-home }}"
+      sln-path: "${{ needs.prepare-variables.outputs.sln-path }}"
+      sln-name: "${{ needs.prepare-variables.outputs.sln-name }}"
+      runsettings-name: "${{ needs.prepare-variables.outputs.runsettings-name }}"
+
+  build-run-node-tests:
+    uses: ./.github/workflows/job-build-and-run-tests-node.yml
+    needs: [prepare-variables, prepare-environment]
+    with:
+      node-build-config: "${{ needs.prepare-variables.outputs.node-build-config }}"
+      node-project-home: "${{ needs.prepare-variables.outputs.node-project-home }}"
+      node-version: 18

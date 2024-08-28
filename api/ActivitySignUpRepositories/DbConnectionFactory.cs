@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Hosting;
+using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 
 namespace ActivitySignUp.Repositories
 {
@@ -13,8 +15,8 @@ namespace ActivitySignUp.Repositories
     {
 
         private IConfiguration _configuration;
+        private readonly ILogger<DbConnectionFactory> _logger;
 
-        private IHostEnvironment _environment;
 
         /// <summary>
         /// basic ctor
@@ -22,10 +24,11 @@ namespace ActivitySignUp.Repositories
         /// <param name="configuration">the application configuration</param>
         public DbConnectionFactory(
             IConfiguration configuration,
-            IHostEnvironment environment)
+            ILogger<DbConnectionFactory> logger
+            )
         {
             _configuration = configuration;
-            _environment = environment;
+            _logger = logger;
         }
 
         /// <summary>
@@ -34,25 +37,43 @@ namespace ActivitySignUp.Repositories
         /// <returns>IDbConnection</returns>
         public IDbConnection Create()
         {
-            switch(_environment.EnvironmentName)
+            var connstring = string.Empty;
+            var envName = _configuration["ASPNETCORE_ENVIRONMENT"];
+            switch (envName)
             {
                 case "Production":
-                {
-                    return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase_Production"));
-                }
+                    {
+                        connstring = _configuration.GetConnectionString("ActivitySignUpDatabase_Production");
+                        break;
+                    }
+                case "Development":
+                    {
+                        connstring = _configuration.GetConnectionString("ActivitySignUpDatabase_Development");
+                        break;
+                    }
                 case "arm64-latest":
-                {
-                    return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase_arm64-latest"));
-                }
+                    {
+                        connstring = _configuration.GetConnectionString("ActivitySignUpDatabase_arm64-latest");
+                        break;
+                    }
                 case "local":
-                {
-                    // ActivitySignUpDatabase_local
-                    return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase_local"));                    
-                }
+                    {
+                        connstring = _configuration.GetConnectionString("ActivitySignUpDatabase_local");
+                        break;
+                    }
+                default:
+                    {
+                        connstring = _configuration.GetConnectionString("ActivitySignUpDatabase");
+                        break;
+                    }
             }
-            return new SqlConnection(_configuration.GetConnectionString("ActivitySignUpDatabase"));            
+            if (string.IsNullOrEmpty(connstring))
+            {
+                string message = $"No connectionstring for env {envName}.";
+                _logger.LogWarning(message);
+                throw new System.Exception(message);
+            }
+            return new SqlConnection(connstring);
         }
-       
-
     }
 }
