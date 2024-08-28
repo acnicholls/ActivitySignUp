@@ -1,0 +1,33 @@
+# This script tags the current commit, and builds a release package
+name: tag-and-release
+run-name: Tag and Prepare Release for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
+concurrency:
+  group: release-tags
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  tag-and-release:
+    permissions:
+      contents: write
+      pull-requests: read
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - id: release
+        uses: rymndhng/release-on-push-action@master
+        with:
+          bump_version_scheme: minor
+          tag_prefix: v
+          use_github_release_notes: true
+          release_name: "Release <RELEASE_TAG>"
+          release_body: "Bug fixes and features for stability of the application."
+
+      - name: Check Output Parameters
+        run: |
+          echo "Got tag name ${{ steps.release.outputs.tag_name }}"
+          echo "Got release version ${{ steps.release.outputs.version }}"
+          echo "Upload release artifacts to ${{ steps.release.outputs.upload_url }}"

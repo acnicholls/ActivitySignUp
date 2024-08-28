@@ -1,0 +1,24 @@
+# This script builds the debug binaries for activity-sign-up
+# the images are then uploaded to github's CR
+name: deploy-latest-release-images
+run-name: Deploy Release AMD64 images for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
+concurrency:
+  group: release-images
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-images:
+    runs-on: [self-hosted, deploy, amd64, release]
+    steps:
+      - name: Check out the code with a filter
+        id: download-compose-files
+        uses: actions/checkout@v4
+        with:
+          - filter: docker-compose.ghcr-latest.yml
+
+      - name: execute command
+        id: start-docker-compose
+        run: |
+          docker compose -f docker-compose.ghcr-latest.yml restart -d
