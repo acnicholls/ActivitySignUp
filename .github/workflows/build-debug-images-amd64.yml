@@ -182,3 +182,12 @@ jobs:
           tags: "ghcr.io/acnicholls/activity_client:${{ steps.get-docker-tag.outputs.docker-tag }}"
           file: ./client/Dockerfile
           platforms: "linux/amd64"
+
+      - name: "build and push db"
+        uses: docker/build-push-action@v6
+        with:
+          context: ./db
+          push: true
+          tags: "ghcr.io/acnicholls/activity_db:${{ steps.get-docker-tag.outputs.docker-tag }}"
+          file: ./db/Dockerfile
+          platforms: "linux/amd64"
