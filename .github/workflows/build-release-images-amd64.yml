@@ -90,11 +90,11 @@ jobs:
         with:
           files: "${{ steps.get-sub-file-name.outputs.sub-file-name }}"
         env:
-          ConnectionStrings.ActivitySignUpDatabase_local: ${{ secrets.connectionstring }}
-          ConnectionStrings.ActivitySignUpDatabase_arm64-latest: ${{ secrets.connectionstring }}
-          ConnectionStrings.ActivitySignUpDatabase_Production: ${{ secrets.connectionstring }}
-          ConnectionStrings.ActivitySignUpDatabase_Development: ${{ secrets.connectionstring }}
-          ConnectionStrings.ActivitySignUpDatabase: ${{ secrets.connectionstring }}
+          ConnectionStrings.ActivitySignUpDatabase_local: ${{ secrets.PROD_CONNECTIONSTRING }}
+          ConnectionStrings.ActivitySignUpDatabase_arm64-latest: ${{ secrets.PROD_CONNECTIONSTRING }}
+          ConnectionStrings.ActivitySignUpDatabase_Production: ${{ secrets.PROD_CONNECTIONSTRING }}
+          ConnectionStrings.ActivitySignUpDatabase_Development: ${{ secrets.PROD_CONNECTIONSTRING }}
+          ConnectionStrings.ActivitySignUpDatabase: ${{ secrets.PROD_CONNECTIONSTRING }}
 
       ## DOTNET BUILD AND TEST
 
