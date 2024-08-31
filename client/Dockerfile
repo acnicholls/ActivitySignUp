@@ -13,7 +13,7 @@ ENV PATH=/app/node_modules/.bin:$PATH
 COPY ./ActivitySignUpPortal .
 
 # install npm packges
-RUN npm install -g @angular/cli@10.0.4
+RUN npm install -g @angular/cli
 RUN npm install --legacy-peer-deps
 
 # run the tests
