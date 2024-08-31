@@ -16,7 +16,7 @@ jobs:
         id: download-compose-files
         uses: actions/checkout@v4
         with:
-          - filter: "docker-compose.ghcr-latest.yml"
+          filter: "docker-compose.ghcr-latest.yml"
 
       - name: "Login to Container Registry"
         id: login-cr
