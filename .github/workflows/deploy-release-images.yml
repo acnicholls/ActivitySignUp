@@ -10,13 +10,13 @@ on:
 
 jobs:
   deploy-images:
-    runs-on: [self-hosted, deploy, X64, release]
+    runs-on: [self-hosted, linux, activity, X64, deploy, release]
     steps:
       - name: Check out the code with a filter
         id: download-compose-files
         uses: actions/checkout@v4
         with:
-          - filter: docker-compose.ghcr-latest.yml
+          - filter: "docker-compose.ghcr-latest.yml"
 
       - name: "Login to Container Registry"
         id: login-cr

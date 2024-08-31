@@ -1,7 +1,7 @@
 # This script builds and deploys the debug binaries for activity-sign-up
 # the images are then uploaded to github's CR
 name: build-test-containerize-release-images-amd64
-run-name: Build and Test Release AMD64 binaries and images for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
+run-name: Build, Test and Push Release AMD64 binaries and images for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
 concurrency:
   group: release-binaries-amd64
   cancel-in-progress: true
@@ -90,11 +90,11 @@ jobs:
         with:
           files: "${{ steps.get-sub-file-name.outputs.sub-file-name }}"
         env:
-          ConnectionStrings.ActivitySignUpDatabase_local: ${{ secrets.connectionstring }}
-          ConnectionStrings.ActivitySignUpDatabase_arm64-latest: ${{ secrets.connectionstring }}
-          ConnectionStrings.ActivitySignUpDatabase_Production: ${{ secrets.connectionstring }}
-          ConnectionStrings.ActivitySignUpDatabase_Development: ${{ secrets.connectionstring }}
-          ConnectionStrings.ActivitySignUpDatabase: ${{ secrets.connectionstring }}
+          ConnectionStrings.ActivitySignUpDatabase_local: ${{ secrets.PROD_CONNECTIONSTRING }}
+          ConnectionStrings.ActivitySignUpDatabase_arm64-latest: ${{ secrets.PROD_CONNECTIONSTRING }}
+          ConnectionStrings.ActivitySignUpDatabase_Production: ${{ secrets.PROD_CONNECTIONSTRING }}
+          ConnectionStrings.ActivitySignUpDatabase_Development: ${{ secrets.PROD_CONNECTIONSTRING }}
+          ConnectionStrings.ActivitySignUpDatabase: ${{ secrets.PROD_CONNECTIONSTRING }}
 
       ## DOTNET BUILD AND TEST
 

@@ -73,7 +73,7 @@ jobs:
     with:
       sub-file-name: ${{ needs.prepare-variables.outputs.sub-file-name }}
     secrets:
-      connectionstring: ${{ secrets.LOCAL_CONNECTIONSTRING }}
+      connectionstring: ${{ secrets.PROD_CONNECTIONSTRING }}
 
   build-run-dotnet-tests:
     uses: ./.github/workflows/job-build-and-run-tests-dotnet.yml
