@@ -2,13 +2,13 @@ version: "3.8"
 
 services:
   client:
-    image: ghcr.io/activity_client:latest-amd64
+    image: ghcr.io/acnicholls/activity_client:latest-amd64
     networks:
       activity:
         aliases:
           - client
   api:
-    image: ghcr.io/activity_api:latest-amd64
+    image: ghcr.io/acnicholls/activity_api:latest-amd64
     links:
       - db
     networks:
@@ -16,7 +16,7 @@ services:
         aliases:
           - api
   db:
-    image: ghcr.io/activity_db:latest-amd64
+    image: ghcr.io/acnicholls/activity_db:latest-amd64
     networks:
       activity:
         aliases:
@@ -24,7 +24,7 @@ services:
     volumes:
       - db_data:/var/opt/mssql/data:rw
   proxy:
-    image: ghcr.io/activity_proxy:latest-amd64
+    image: ghcr.io/acnicholls/activity_proxy:latest-amd64
     ports:
       - 80:80
     links:
