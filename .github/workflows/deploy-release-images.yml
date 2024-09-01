@@ -27,11 +27,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: execute command
-        id: start-docker-compose
+      - name: pull latest images
+        id: pull-docker-images
+        shell: bash
         run: |
           docker pull ghcr.io/acnicholls/activity_client:latest-amd64
           docker pull ghcr.io/acnicholls/activity_api:latest-amd64
           docker pull ghcr.io/acnicholls/activity_proxy:latest-amd64
-          docker pull ghcr.io/acnicholls/activity_db:latest-amd64                              
+          docker pull ghcr.io/acnicholls/activity_db:latest-amd64
+
+      - name: start the container
+        id: start-docker-compose
+        shell: bash
+        run: |
           docker compose -f docker-compose.ghcr-latest.yml restart -d

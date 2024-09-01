@@ -73,6 +73,8 @@ namespace ActivitySignUp.Repositories
                 _logger.LogWarning(message);
                 throw new System.Exception(message);
             }
+
+            _logger.LogTrace("selected connectionstring: {connstring}", connstring);
             return new SqlConnection(connstring);
         }
     }
