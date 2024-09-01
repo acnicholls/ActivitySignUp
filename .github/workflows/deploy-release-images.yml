@@ -29,6 +29,7 @@ jobs:
 
       - name: pull latest images
         id: pull-docker-images
+        shell: bash
         run: |
           docker pull ghcr.io/acnicholls/activity_client:latest-amd64
           docker pull ghcr.io/acnicholls/activity_api:latest-amd64
@@ -37,5 +38,6 @@ jobs:
 
       - name: start the container
         id: start-docker-compose
+        shell: bash
         run: |
           docker compose -f docker-compose.ghcr-latest.yml restart -d
