@@ -36,8 +36,13 @@ jobs:
           docker pull ghcr.io/acnicholls/activity_proxy:latest-amd64
           docker pull ghcr.io/acnicholls/activity_db:latest-amd64
 
-      - name: start the container
+      # - name: start the container
+      #   id: start-docker-compose
+      #   shell: bash
+      #   run: |
+      #     docker compose -f docker-compose.ghcr-latest.yml restart -d
+      - name: start docker compose
         id: start-docker-compose
-        shell: bash
-        run: |
-          docker compose -f docker-compose.ghcr-latest.yml restart -d
+        uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          compose-file: docker-compose.ghcr-latest.yml
