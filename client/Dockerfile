@@ -24,7 +24,7 @@ RUN npm install --legacy-peer-deps
 RUN ng build --output-path=dist --configuration=production
 
 ###  PRODUCTION IMAGE
-FROM nginx::latest
+FROM nginx:latest
 
 # copy build output
 COPY --from=build /app/dist /usr/share/nginx/html
