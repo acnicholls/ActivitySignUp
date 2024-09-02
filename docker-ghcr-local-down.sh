@@ -1,0 +1,1 @@
+docker compose -f docker-compose.ghcr-local.yml down

@@ -50,9 +50,9 @@ You can also run the application on a machine with only the following installed
 todo this you run the following command in git bash to start a docker container at http://localhost that uses the API, client, db and proxy almost as it would in production, as in this case the database is built into a container, and is inacessible to a database administrator.
 
 1. clone the repository
-2. run `/.docker-local-start.sh` to run the latest debug images stored in the remote Container Registry
+2. run `./docker-local-start.sh` to build new local images and run a compose container in your local docker engine.
    OR
-3. run `docker compose -f docker-compose.local.yml up -d --build` to build new local images and run a compose container.
+3. run `./docker-ghcr-local-start.sh` to run the latest debug images stored in the repositorie's remote Container Registry.
 
 once running, navigate to [`http://localhost`](http://localhost)
 
@@ -64,11 +64,11 @@ the database for this demo is the same as the one in the local (built into a con
 
 # stopping the application
 
-run `./docker-dev-stop.sh` or `./docker-local-stop.sh`
+run `./docker-dev-stop.sh` or `./docker-local-stop.sh` or `./docker-ghcr-local-stop.sh`
 
 # removing the application from your docker instance
 
-run `./docker-dev-down.sh` or `./docker-local-down.sh`
+run `./docker-dev-down.sh` or `./docker-local-down.sh` or `./docker-ghcr-local-down.sh`
 
 # purpose
 
