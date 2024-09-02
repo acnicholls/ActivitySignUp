@@ -40,6 +40,6 @@ jobs:
         id: start-docker-compose
         shell: bash
         env: |
-          DOCKER_ALLOW_IPV6_ON_IPV4_INTERFACE=1
+          - DOCKER_ALLOW_IPV6_ON_IPV4_INTERFACE=1
         run: |
           docker compose -f docker-compose.ghcr-latest.yml restart -d
