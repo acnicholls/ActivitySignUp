@@ -40,4 +40,4 @@ jobs:
         id: start-docker-compose
         shell: bash
         run: |
-          docker compose -df docker-compose.ghcr-latest.yml restart
+          docker compose -f docker-compose.ghcr-latest.yml up -d
