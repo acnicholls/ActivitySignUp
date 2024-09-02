@@ -24,7 +24,7 @@ RUN npm install --legacy-peer-deps
 RUN ng build --output-path=dist --configuration=production
 
 ###  PRODUCTION IMAGE
-FROM nginx:1.16.0-alpine
+FROM nginx::latest
 
 # copy build output
 COPY --from=build /app/dist /usr/share/nginx/html
@@ -32,7 +32,3 @@ COPY --from=build /app/dist /usr/share/nginx/html
 # copy angular specific config for NGINX
 COPY ./default.prod.conf /etc/nginx/conf.d/default.conf
 
-# expose HTTP port
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
