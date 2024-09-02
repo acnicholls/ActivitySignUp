@@ -7,5 +7,5 @@ COPY ./nginx.prod.conf /etc/nginx/conf.d/default.conf
 # copy our includes file
 COPY ./includes.conf /etc/nginx/conf.d/proxy.conf
 
+# run the post on 800 so docker can run multiple containers
 EXPOSE 800
-EXPOSE 80
