@@ -17,6 +17,8 @@ services:
           - api
   db:
     image: ghcr.io/acnicholls/activity_db:local-amd64
+    ports:
+      - 1433:1433
     networks:
       activity:
         aliases:

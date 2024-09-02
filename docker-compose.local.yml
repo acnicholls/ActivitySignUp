@@ -36,6 +36,8 @@ services:
       context: ./db
       dockerfile: Dockerfile.local
     image: activity_db:local-amd64
+    ports:
+      - 1433:1433    
     networks:
       activity:
         aliases:    
