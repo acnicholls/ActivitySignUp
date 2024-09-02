@@ -6,7 +6,7 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile.local
-    image: ghcr.io/acnicholls/activity_client:local-amd64
+    image: activity_client:local-amd64
     volumes:
       - ./client/ActivitySignUpPortal:/app
     ports:
@@ -20,7 +20,7 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile.local
-    image: ghcr.io/acnicholls/activity_api:local-amd64
+    image: activity_api:local-amd64
     links:
       - db
     ports:
@@ -35,7 +35,7 @@ services:
     build:
       context: ./db
       dockerfile: Dockerfile.local
-    image: ghcr.io/acnicholls/activity_db:local-amd64
+    image: activity_db:local-amd64
     networks:
       activity:
         aliases:    
@@ -47,7 +47,7 @@ services:
     build:
       context: ./proxy
       dockerfile: Dockerfile.local
-    image: ghcr.io/acnicholls/activity_proxy:local-amd64
+    image: activity_proxy:local-amd64
     links:
       - client
       - api
