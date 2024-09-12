@@ -23,4 +23,6 @@ RUN mkdir /app/Resources/Images
 ENV ASPNETCORE_ENVIRONMENT=local
 ENV ASPNETCORE_URLS='http://+:5000;https://+:5001;'
 
+EXPOSE 5000
+
 ENTRYPOINT ["dotnet", "/app/out/ActivitySignUpApi.dll"]
