@@ -20,7 +20,7 @@ env:
   docker-tag: "stage-amd64"
   # dotnet env settings
   dotnet-build-config: "RELEASE"
-  dotnet-test-runsettings: "tests.stage.runsettings"
+  dotnet-test-runsettings: "tests.Staging.runsettings"
   ASPNETCORE_ENVIRONMENT: "Staging"
   sln-path: "api"
   sln-name: "ActivitySignUp.sln"

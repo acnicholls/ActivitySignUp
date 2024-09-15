@@ -59,7 +59,7 @@ COPY --from=build-deps /app/out .
 RUN ["mkdir", "/app/Resources"]
 RUN ["mkdir", "/app/Resources/Images"]
 
-ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_ENVIRONMENT=Staging
 ENV ASPNETCORE_URLS=http://+:5000
 
 ENTRYPOINT ["dotnet", "/app/ActivitySignUpApi.dll"]
