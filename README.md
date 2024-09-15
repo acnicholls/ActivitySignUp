@@ -22,7 +22,7 @@ Activity Sign Up web application
 
 `stage deploy:` [![deploy-stage-stage-images](https://github.com/acnicholls/activity-sign-up/actions/workflows/deploy-stage-images.yml/badge.svg)](https://github.com/acnicholls/activity-sign-up/actions/workflows/deploy-stage-images.yml)
 
-`public deply: ` [![deploy-latest-release-images](https://github.com/acnicholls/activity-sign-up/actions/workflows/deploy-release-images.yml/badge.svg)](https://github.com/acnicholls/activity-sign-up/actions/workflows/deploy-release-images.yml)
+`public deploy: ` [![deploy-latest-release-images](https://github.com/acnicholls/activity-sign-up/actions/workflows/deploy-release-images.yml/badge.svg)](https://github.com/acnicholls/activity-sign-up/actions/workflows/deploy-release-images.yml)
 
 ---
 
