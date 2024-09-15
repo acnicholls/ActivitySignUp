@@ -42,6 +42,7 @@ namespace ActivitySignUp.Repositories
             switch (envName)
             {
                 case "Production":
+                case "Staging":
                     {
                         connstring = _configuration.GetConnectionString("ActivitySignUpDatabase_Production");
                         break;
