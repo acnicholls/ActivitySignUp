@@ -6,8 +6,8 @@ concurrency:
   group: debug-binaries
 
 on:
-  pull_request_target:
-    target_branches:
+  pull_request:
+    branches:
       - develop
     types: [opened, edited, ready_for_review, synchronize, reopened]
   workflow_dispatch:
