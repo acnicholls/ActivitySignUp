@@ -1,0 +1,48 @@
+# This script builds the debug binaries for activity-sign-up
+# the images are then uploaded to github's CR
+name: deploy-stage-stage-images
+run-name: Deploy Stage AMD64 images for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
+concurrency:
+  group: stage-images
+
+on:
+  workflow_run:
+    workflows: ["build-test-containerize-stage-images-amd64"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  deploy-images:
+    if: success()
+    runs-on: [self-hosted, linux, activity, X64, deploy, stage]
+    steps:
+      - name: Check out the code with a filter
+        id: download-compose-files
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            docker-compose.ghcr-stage.yml
+
+      - name: "Login to Container Registry"
+        id: login-cr
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: pull latest stage images
+        id: pull-docker-images
+        shell: bash
+        run: |
+          docker pull ghcr.io/acnicholls/activity_client:stage-amd64
+          docker pull ghcr.io/acnicholls/activity_api:stage-amd64
+          docker pull ghcr.io/acnicholls/activity_proxy:stage-amd64
+          docker pull ghcr.io/acnicholls/activity_db:stage-amd64
+
+      - name: start the container
+        id: start-docker-compose
+        shell: bash
+        run: |
+          docker compose -f docker-compose.ghcr-stage.yml up -d

@@ -6,8 +6,8 @@ concurrency:
   group: release-binaries
 
 on:
-  pull_request_target:
-    target_branches:
+  pull_request:
+    branches:
       - master
     types: [opened, edited, ready_for_review, synchronize, reopened]
   workflow_dispatch:
