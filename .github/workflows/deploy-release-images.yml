@@ -6,6 +6,10 @@ concurrency:
   group: release-images
 
 on:
+  workflow_run:
+    workflows: ["build-test-containerize-release-images-amd64"]
+    types:
+      - completed
   workflow_dispatch:
 
 jobs:

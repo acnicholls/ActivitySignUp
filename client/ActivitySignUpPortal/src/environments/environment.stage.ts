@@ -1,4 +1,4 @@
 export const environment = {
-  apiUrl: 'https://activity-test.acnicholls.com/api',
+  apiUrl: 'https://activitytest.acnicholls.com/api',
   production: true
 };

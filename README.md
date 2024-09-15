@@ -2,6 +2,8 @@
 
 Activity Sign Up web application
 
+## latest build results
+
 ---
 
 `develop build and test AMD64`: [![build-debug-binaries](https://github.com/acnicholls/activity-sign-up/actions/workflows/build-debug-binaries.yml/badge.svg?branch=develop)](https://github.com/acnicholls/activity-sign-up/actions/workflows/build-debug-binaries.yml)
@@ -11,6 +13,16 @@ Activity Sign Up web application
 `develop build, test, containerize AMD64`: [![build-test-containerize-debug-images-amd64](https://github.com/acnicholls/activity-sign-up/actions/workflows/build-debug-images-amd64.yml/badge.svg)](https://github.com/acnicholls/activity-sign-up/actions/workflows/build-debug-images-amd64.yml)
 
 `master build, test, containerize AMD64`: [![build-test-containerize-release-images-amd64](https://github.com/acnicholls/activity-sign-up/actions/workflows/build-release-images-amd64.yml/badge.svg)](https://github.com/acnicholls/activity-sign-up/actions/workflows/build-release-images-amd64.yml)
+
+---
+
+## latest deploy results
+
+---
+
+`stage deploy:` [![deploy-stage-stage-images](https://github.com/acnicholls/activity-sign-up/actions/workflows/deploy-stage-images.yml/badge.svg)](https://github.com/acnicholls/activity-sign-up/actions/workflows/deploy-stage-images.yml)
+
+`public deploy: ` [![deploy-latest-release-images](https://github.com/acnicholls/activity-sign-up/actions/workflows/deploy-release-images.yml/badge.svg)](https://github.com/acnicholls/activity-sign-up/actions/workflows/deploy-release-images.yml)
 
 ---
 
