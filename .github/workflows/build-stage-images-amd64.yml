@@ -10,7 +10,6 @@ on:
   push:
     branches:
       - develop
-      - 75-add-stage-config
     paths-ignore:
       - README.md
       - LICENSE
