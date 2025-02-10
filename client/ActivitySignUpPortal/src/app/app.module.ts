@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,34 +22,27 @@ import {
 import { UploadComponent } from './pages/activity/new/upload.component';
 import { InfoComponent } from './pages/activity/info/info.component';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    ActivityListComponent,
-    ActivityComponent,
-    NewActivityComponent,
-    UploadComponent,
-    InfoComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NbThemeModule.forRoot({name: 'dark' }),
-    NbLayoutModule,
-    NbCardModule,
-    NbListModule,
-    NbInputModule,
-    NbButtonModule,
-    NbIconModule,
-    NbActionsModule,
-    NbEvaIconsModule
-  ],
-  providers: [],
-  bootstrap: [ AppComponent ]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        ActivityListComponent,
+        ActivityComponent,
+        NewActivityComponent,
+        UploadComponent,
+        InfoComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NbThemeModule.forRoot({ name: 'dark' }),
+        NbLayoutModule,
+        NbCardModule,
+        NbListModule,
+        NbInputModule,
+        NbButtonModule,
+        NbIconModule,
+        NbActionsModule,
+        NbEvaIconsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {
   // for diagnostic purposes
   constructor(router: Router) {

@@ -1,4 +1,4 @@
-FROM node:12.18.1 as build
+FROM node:18 AS build
 
 # install chrome for tests
 # RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
@@ -7,15 +7,14 @@ FROM node:12.18.1 as build
 
 WORKDIR /app
 
-ENV PATH /app/node_modules/.bin:$PATH
+ENV PATH=/app/node_modules/.bin:$PATH
 
 # copy the application files
 COPY ./ActivitySignUpPortal .
 
 # install npm packges
-RUN npm install
-# RUN npm install -g @angular/cli@10.0.4
-
+RUN npm install -g @angular/cli
+RUN npm install --legacy-peer-deps
 
 # run the tests
 # RUN ng test --watch=false
@@ -24,9 +23,8 @@ RUN npm install
 # generate build
 RUN ng build --output-path=dist --configuration=production
 
-
 ###  PRODUCTION IMAGE
-FROM nginx:1.16.0-alpine
+FROM nginx:latest
 
 # copy build output
 COPY --from=build /app/dist /usr/share/nginx/html
@@ -34,7 +32,3 @@ COPY --from=build /app/dist /usr/share/nginx/html
 # copy angular specific config for NGINX
 COPY ./default.prod.conf /etc/nginx/conf.d/default.conf
 
-# expose HTTP port
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]

@@ -1,0 +1,35 @@
+name: prepare-environment
+
+on:
+  workflow_call:
+    inputs:
+      sub-file-name:
+        required: true
+        type: string
+    secrets:
+      connectionstring:
+        required: true
+
+jobs:
+  prepare-environment:
+    runs-on: self-hosted
+    steps:
+      # get the latest code from the repo
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # display environment variables, for audit purposes
+      - name: Check Environment
+        run: |
+          printenv
+
+      - name: Prepare application settings
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: "${{ inputs.sub-file-name }}"
+        env:
+          ConnectionStrings.ActivitySignUpDatabase_local: ${{ secrets.connectionstring }}
+          ConnectionStrings.ActivitySignUpDatabase_arm64-latest: ${{ secrets.connectionstring }}
+          ConnectionStrings.ActivitySignUpDatabase_Production: ${{ secrets.connectionstring }}
+          ConnectionStrings.ActivitySignUpDatabase_Development: ${{ secrets.connectionstring }}
+          ConnectionStrings.ActivitySignUpDatabase: ${{ secrets.connectionstring }}

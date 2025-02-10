@@ -10,5 +10,7 @@ COPY ./ActivitySignUpDatabase.bak /tmp/ActivitySignUpDatabase.bak
 # copy the create and restore script
 COPY ./create_restore.sql /tmp/create_restore.sql
 
+EXPOSE 1433
+
 RUN (/opt/mssql/bin/sqlservr & ) | grep -q "Service Broker manager has started" && \
-/opt/mssql-tools/bin/sqlcmd -S tcp:localhost -U sa -P 'S3curEP@s5w0rd' -i /tmp/create_restore.sql
+    /opt/mssql-tools18/bin/sqlcmd -S tcp:localhost -C -U sa -P 'S3curEP@s5w0rd' -i /tmp/create_restore.sql

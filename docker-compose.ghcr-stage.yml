@@ -1,14 +1,13 @@
-version: "3.8"
 
 services:
   client:
-    image: acr.acnicholls.com/activity_client:latest
+    image: ghcr.io/acnicholls/activity_client:stage-amd64
     networks:
       activity:
         aliases:
           - client
   api:
-    image: acr.acnicholls.com/activity_api:latest
+    image: ghcr.io/acnicholls/activity_api:stage-amd64
     links:
       - db
     networks:
@@ -16,7 +15,7 @@ services:
         aliases:
           - api
   db:
-    image: acr.acnicholls.com/activity_db:latest
+    image: ghcr.io/acnicholls/activity_db:stage-amd64
     networks:
       activity:
         aliases:
@@ -24,9 +23,9 @@ services:
     volumes:
       - db_data:/var/opt/mssql/data:rw
   proxy:
-    image: acr.acnicholls.com/activity_proxy:latest
+    image: ghcr.io/acnicholls/activity_proxy:stage-amd64
     ports:
-      - 80:80
+      - 800:800
     links:
       - client
       - api

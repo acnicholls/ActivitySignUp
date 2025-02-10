@@ -1,0 +1,193 @@
+# This script builds and deploys the debug binaries for activity-sign-up
+# the images are then uploaded to github's CR
+name: build-test-containerize-release-images-amd64
+run-name: Build, Test and Push Release AMD64 binaries and images for ${{ github.event_name }} triggered by ${{ github.triggering_actor }}
+concurrency:
+  group: release-binaries-amd64
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - README.md
+      - LICENSE
+      - .gitignore
+  workflow_dispatch:
+env:
+  # docker settings
+  docker-tag: "latest-amd64"
+  # dotnet env settings
+  dotnet-build-config: "RELEASE"
+  dotnet-test-runsettings: "tests.Production.runsettings"
+  ASPNETCORE_ENVIRONMENT: "Production"
+  sln-path: "api"
+  sln-name: "ActivitySignUp.sln"
+  substitution-file-names: "api/ActivitySignUpApi/appsettings.Production.json"
+  # node env settings
+  node-project-home: "client/ActivitySignUpPortal"
+  node-build-config: "production"
+  node-version: 18
+
+jobs:
+  build-test-containerize:
+    runs-on: ubuntu-latest
+    outputs:
+      ASPNETCORE_ENVIRONMENT: ${{ steps.get-asp-env-name.outputs.ASPNETCORE_ENVIRONMENT }}
+      sub-file-name: ${{ steps.get-sub-file-name.outputs.sub-file-name }}
+      dotnet-build-config: ${{ steps.get-dotnet-build-config.outputs.dotnet-build-config }}
+      sln-path: ${{ steps.get-sln-path.outputs.sln-path }}
+      sln-name: ${{ steps.get-sln-name.outputs.sln-name }}
+      runsettings-name: ${{ steps.get-runsettings-name.outputs.runsettings-name }}
+      node-project-home: ${{ steps.get-node-project-home.outputs.node-project-home }}
+      node-build-config: ${{ steps.get-node-build-config.outputs.node-build-config }}
+      docker-tag: ${{ steps.get-docker-tag.outputs.docker-tag }}
+      node-version: ${{ steps.get-node-version.outputs.node-version }}
+    steps:
+      - id: get-asp-env-name
+        shell: bash
+        run: echo "ASPNETCORE_ENVIRONMENT=${{ env.ASPNETCORE_ENVIRONMENT }}"
+      - id: get-dotnet-build-config
+        shell: bash
+        run: echo "dotnet-build-config=${{ env.dotnet-build-config }}" >> $GITHUB_OUTPUT
+      - id: get-sln-path
+        shell: bash
+        run: echo "sln-path=${{ github.workspace }}/${{ env.sln-path }}" >> $GITHUB_OUTPUT
+      - id: get-sln-name
+        shell: bash
+        run: echo "sln-name=${{ env.sln-name }}" >> $GITHUB_OUTPUT
+      - id: get-sub-file-name
+        shell: bash
+        run: echo "sub-file-name=${{ github.workspace }}/${{ env.substitution-file-names }}" >> $GITHUB_OUTPUT
+      - id: get-runsettings-name
+        shell: bash
+        run: echo "runsettings-name=${{ env.dotnet-test-runsettings }}" >> $GITHUB_OUTPUT
+      - id: get-node-project-home
+        shell: bash
+        run: echo "node-project-home=${{ github.workspace }}/${{ env.node-project-home }}" >> $GITHUB_OUTPUT
+      - id: get-node-build-config
+        shell: bash
+        run: echo "node-build-config=${{ env.node-build-config }}" >> $GITHUB_OUTPUT
+      - id: get-node-version
+        shell: bash
+        run: echo "node-version=${{ env.node-version }}" >> GITHUB_OUTPUT
+      - id: get-docker-tag
+        shell: bash
+        run: echo "docker-tag=${{ env.docker-tag }}" >> $GITHUB_OUTPUT
+
+      # get the latest code from the repo
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # display environment variables, for audit purposes
+      - name: Check Environment
+        run: |
+          printenv
+
+      - name: Prepare application settings
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: "${{ steps.get-sub-file-name.outputs.sub-file-name }}"
+        env:
+          ConnectionStrings.ActivitySignUpDatabase_local: ${{ secrets.PROD_CONNECTIONSTRING }}
+          ConnectionStrings.ActivitySignUpDatabase_arm64-latest: ${{ secrets.PROD_CONNECTIONSTRING }}
+          ConnectionStrings.ActivitySignUpDatabase_Production: ${{ secrets.PROD_CONNECTIONSTRING }}
+          ConnectionStrings.ActivitySignUpDatabase_Development: ${{ secrets.PROD_CONNECTIONSTRING }}
+          ConnectionStrings.ActivitySignUpDatabase: ${{ secrets.PROD_CONNECTIONSTRING }}
+
+      ## DOTNET BUILD AND TEST
+
+      - name: Install dotnet
+        env:
+          DOTNET_INSTALL_DIR: "~/.dotnet"
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.x"
+
+      # display environment variables, for audit purposes
+      - name: Check Environment
+        run: |
+          printenv
+
+      - name: dotnet restore
+        run: |
+          cd ${{ steps.get-sln-path.outputs.sln-path }}
+          ~/.dotnet/dotnet restore ./${{ steps.get-sln-name.outputs.sln-name }}
+
+      - name: dotnet test
+        run: |
+          cd ${{ steps.get-sln-path.outputs.sln-path }}
+          ~/.dotnet/dotnet test ./${{ steps.get-sln-name.outputs.sln-name }} \
+              -c ${{ steps.get-dotnet-build-config.outputs.dotnet-build-config }} \
+              --settings:./${{ steps.get-runsettings-name.outputs.runsettings-name }}
+
+      ####  NODE BUILD AND TEST
+
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.get-node-version.outputs.node-version }}
+
+      # display environment variables, for audit purposes
+      - name: Check Environment
+        run: |
+          printenv
+
+      # add run tests step once more tests are added.
+      # next build the angular ui browser app
+      - name: build angular ui
+        run: |
+          cd ./client/ActivitySignUpPortal
+          npm install --legacy-peer-deps
+          npx -p @angular/cli ng build --output-path=dist --configuration=${{ steps.get-node-build-config.outputs.node-build-config }}
+
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
+
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
+
+      - name: "Login to Container Registry"
+        id: login-cr
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "build and push api"
+        uses: docker/build-push-action@v6
+        with:
+          context: ./api
+          push: true
+          tags: "ghcr.io/acnicholls/activity_api:${{ steps.get-docker-tag.outputs.docker-tag }}"
+          file: ./api/Dockerfile
+          platforms: "linux/amd64"
+
+      - name: "build and push proxy"
+        uses: docker/build-push-action@v6
+        with:
+          context: ./proxy
+          push: true
+          tags: "ghcr.io/acnicholls/activity_proxy:${{ steps.get-docker-tag.outputs.docker-tag }}"
+          file: ./proxy/Dockerfile
+          platforms: "linux/amd64"
+
+      - name: "build and push client"
+        uses: docker/build-push-action@v6
+        with:
+          context: ./client
+          push: true
+          tags: "ghcr.io/acnicholls/activity_client:${{ steps.get-docker-tag.outputs.docker-tag }}"
+          file: ./client/Dockerfile
+          platforms: "linux/amd64"
+
+      - name: "build and push db"
+        uses: docker/build-push-action@v6
+        with:
+          context: ./db
+          push: true
+          tags: "ghcr.io/acnicholls/activity_db:${{ steps.get-docker-tag.outputs.docker-tag }}"
+          file: ./db/Dockerfile
+          platforms: "linux/amd64"

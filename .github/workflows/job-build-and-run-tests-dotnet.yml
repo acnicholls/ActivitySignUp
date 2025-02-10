@@ -1,0 +1,51 @@
+name: build-and-run-tests-dotnet
+
+on:
+  workflow_call:
+    inputs:
+      ASPNETCORE_ENVIRONMENT:
+        required: true
+        type: string
+      dotnet-build-config:
+        required: true
+        type: string
+      dotnet-home:
+        required: true
+        type: string
+      sln-path:
+        required: true
+        type: string
+      sln-name:
+        required: true
+        type: string
+      runsettings-name:
+        required: true
+        type: string
+
+jobs:
+  build-and-run-tests-dotnet:
+    runs-on: self-hosted
+    env:
+      ASPNETCORE_ENVIRONMENT: "${{ inputs.ASPNETCORE_ENVIRONMENT }}"
+    steps:
+      - name: Install dotnet
+        env:
+          DOTNET_INSTALL_DIR: ${{ inputs.dotnet-home }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.x"
+
+      # display environment variables, for audit purposes
+      - name: Check Environment
+        run: |
+          printenv
+
+      - name: dotnet restore
+        run: |
+          cd ${{ inputs.sln-path }}
+          ${{ inputs.dotnet-home }}/dotnet restore ./${{ inputs.sln-name }}
+
+      - name: dotnet test
+        run: |
+          cd ${{ inputs.sln-path }}
+          ${{ inputs.dotnet-home }}/dotnet test ./${{ inputs.sln-name }} -c ${{ inputs.dotnet-build-config }} --settings:./${{ inputs.runsettings-name }}

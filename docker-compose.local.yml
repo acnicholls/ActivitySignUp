@@ -6,11 +6,11 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile.local
-    image: activity_client:local
+    image: activity_client:local-amd64
     volumes:
       - ./client/ActivitySignUpPortal:/app
     ports:
-      - 3000:3000
+      - 4200:4200
     networks:
       activity:
         aliases:
@@ -20,7 +20,7 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile.local
-    image: activity_api:local
+    image: activity_api:local-amd64
     links:
       - db
     ports:
@@ -35,7 +35,9 @@ services:
     build:
       context: ./db
       dockerfile: Dockerfile.local
-    image: activity_db:local
+    image: activity_db:local-amd64
+    ports:
+      - 1433:1433    
     networks:
       activity:
         aliases:    
@@ -47,7 +49,7 @@ services:
     build:
       context: ./proxy
       dockerfile: Dockerfile.local
-    image: activity_proxy:local
+    image: activity_proxy:local-amd64
     links:
       - client
       - api
